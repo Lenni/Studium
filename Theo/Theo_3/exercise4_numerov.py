@@ -161,7 +161,6 @@ def main():
 
         eps_s.append(eps)
         len_s.append(le[-1])
-        print(eps)
         if eps > 400:
             break
         peakind, _ = signal.find_peaks(len_s)
@@ -173,11 +172,20 @@ def main():
         eps_s_sub.append(eps_s[ind])
         len_s_sub.append(len_s[ind])
 
-    print(peakind)
     print(eps_s_sub)
-
-    plt.plot(eps_s, len_s)
-    plt.plot(eps_s_sub, len_s_sub, marker = "o", linewidth = 0)
+    
+    fig = plt.figure(figsize=(7, 7))
+    
+    plt.plot(eps_s, len_s, label = "Convergence Radius")
+    plt.plot(eps_s_sub, len_s_sub, marker = "o", linewidth = 0, label = "Peak")
+    
+    plt.title("Finding Converging Eigenfunctions for a given Energy")
+    
+    plt.ylabel("Covergence Radius")
+    plt.xlabel("Energy")
+    
+    
+    plt.savefig("Convergence.eps")
     plt.show()
 
     # alternativ: ungerade Wellenfunktion bestimmen
@@ -186,13 +194,24 @@ def main():
     for e in eps_s_sub:
         e_r = e
         le_g, f_g = numerov_g(e_r, v)
-        plt.plot(np.array(le_g), 100*np.array(f_g) + e_r)
-        plt.plot(le_g, v(le_g))
-        plt.axhline(e)
-        plt.title(r"E_{0}: {1}".format(eps_s_sub.index(e), e_r))
+        
+        fig = plt.figure(figsize=(7, 7))
+        
+        plt.plot(np.array(le_g), 100*np.array(f_g) + e_r, label = "Wave Function")
+        plt.plot(le_g, v(le_g), label = "Potential")
+        plt.axhline(e, color="g", label = "Energy of Particle")
+        plt.title(r"E_{0}: {1:.3f}".format(eps_s_sub.index(e), e_r))
         plt.xlim(0, 3.5)
+        plt.ylim(-100, 300)
+        
+        plt.legend()
+        plt.ylabel("Energy")
+        plt.xlabel("Position")
+        
+        
+        plt.savefig("WF_E{0}.eps".format(eps_s_sub.index(e)))
         plt.show()
-        print ('Erwartungswert v(x):', v_av(e, v, le, f))
+        print('Erwartungswert v(x):', v_av(e, v, le, f))
 
 
     # mittlere potentielle Energie
