@@ -14,5 +14,5 @@ def E_somm( n ):
     return pow(np.pi*h*n, 4/3) * pow(a/m**2, 1/3) *0.3
 
 print("n\tE_n;wkb           \tE_n;somm")
-for n in range(10):
+for n in range(20):
     print("{0}\tE_{0};wkb = {1:2.3f}  \tE_{0};somm = {2:2.3f}".format(n, E_wkb(n), E_somm(n+1)))

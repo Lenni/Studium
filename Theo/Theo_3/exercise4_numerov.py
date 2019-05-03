@@ -144,8 +144,8 @@ def main():
     le = [2.5]
     delta_eps = 0.1
 
-    eps_s = []
-    len_s=[]
+    eps_s_g = []
+    len_s_g=[]
     peakind = [0]
     c = 0.01
 
@@ -153,7 +153,7 @@ def main():
         # gerade Wellenfunktion bestimmen
         le, f = numerov_g(eps, lambda x : 2*m/h**2 * v(x))
         df = abs(num_derivative(eps, func))
-        
+
         if df != 0.0:
             if c/df < 10e-7:
                 delta_eps = 0.01
@@ -162,61 +162,127 @@ def main():
 
         eps += delta_eps
 
-        eps_s.append(eps)
-        len_s.append(le[-1])
+        eps_s_g.append(eps)
+        len_s_g.append(le[-1])
         if eps > 400:
             break
-        peakind, _ = signal.find_peaks(len_s)
+        peakind, _ = signal.find_peaks(len_s_g)
 
-    eps_s_sub = []
-    len_s_sub = []
+    eps_s_g_sub = []
+    len_s_g_sub = []
 
     for ind in peakind:
-        eps_s_sub.append(eps_s[ind])
-        len_s_sub.append(len_s[ind])
+        eps_s_g_sub.append(eps_s_g[ind])
+        len_s_g_sub.append(len_s_g[ind])
 
-    E_val = np.asarray(eps_s_sub)
-    E_val *= h**2/(2*m)
-    print(E_val)
-    
+    E_val_g = np.asarray(eps_s_g_sub)
+    E_val_g *= h**2/(2*m)
+    print(E_val_g)
+
+    # ungerade Funktionen
+    eps = 0
+    le = [2.5]
+    delta_eps = 0.1
+
+    eps_s_u = []
+    len_s_u=[]
+    peakind = [0]
+    c = 0.01
+
+    while (len(peakind) < 10):
+        # gerade Wellenfunktion bestimmen
+        le, f = numerov_u(eps, lambda x : 2*m/h**2 * v(x))
+        df = abs(num_derivative(eps, func))
+
+        if df != 0.0:
+            if c/df < 10e-7:
+                delta_eps = 0.01
+            else:
+                delta_eps = c/df
+
+        eps += delta_eps
+
+        eps_s_u.append(eps)
+        len_s_u.append(le[-1])
+        if eps > 400:
+            break
+        peakind, _ = signal.find_peaks(len_s_u)
+
+    eps_s_u_sub = []
+    len_s_u_sub = []
+
+    for ind in peakind:
+        eps_s_u_sub.append(eps_s_u[ind])
+        len_s_u_sub.append(len_s_u[ind])
+
+    E_val_u = np.asarray(eps_s_u_sub)
+    E_val_u *= h**2/(2*m)
+    print(E_val_u)
+
     fig = plt.figure(figsize=(7, 7))
-    
-    plt.plot(eps_s, len_s, label = "Convergence Radius")
-    plt.plot(eps_s_sub, len_s_sub, marker = "o", linewidth = 0, label = "Peak")
-    
+
+    plt.plot(eps_s_g, len_s_g, label = "Convergence Radius")
+    plt.plot(eps_s_g_sub, len_s_g_sub, marker = "o", linewidth = 0, label = "Peak")
+
+    plt.plot(eps_s_u, len_s_u, label = "Convergence Radius (uneven)")
+    plt.plot(eps_s_u_sub, len_s_u_sub, marker = "o", linewidth = 0, label = "Peak")
+
     plt.title("Finding Converging Eigenfunctions for a given Energy")
-    
+
     plt.ylabel("Covergence Radius")
     plt.xlabel("Energy")
-    
-    
+
+
     plt.savefig("Convergence.eps")
     plt.show()
 
-    # alternativ: ungerade Wellenfunktion bestimmen
-    #x, f = numerov_u(eps, v)
-    
-    for e in list(E_val):
+    # plot gerade
+
+    for e in list(E_val_g):
         e_r = e
         le_g, f_g = numerov_g(2*m/h**2*e_r, lambda x : 2*m/h**2 * v(x))
-        
+
         fig = plt.figure(figsize=(7, 7))
-        
+
         plt.plot(np.array(le_g), 100*np.array(f_g) + e_r, label = "Wave Function")
         plt.plot(le_g, v(le_g), label = "Potential")
         plt.axhline(e, color="g", label = "Energy of Particle")
-        plt.title(r"E_{0}: {1:.3f}".format(list(E_val).index(e), e_r))
+        plt.title(r"E_{0}: {1:.3f}".format(list(E_val_g).index(e), e_r))
         plt.xlim(0, 3.5)
         plt.ylim(-100, 300)
-        
+
         plt.legend()
         plt.ylabel("Energy")
         plt.xlabel("Position")
-        
-        
-        plt.savefig("WF_E{0}.eps".format(list(E_val).index(e)))
+
+
+        plt.savefig("WF_E{0}.eps".format(list(E_val_g).index(e)))
         plt.show()
-        print('Erwartungswert v(x):', v_av(e, v, le, f))
+        print('Erwartungswert v(x):', v_av(e, v, le_g, f_g))
+
+    # plot ungerade
+
+    for e in list(E_val_u):
+        e_r = e
+        le_u, f_u = numerov_u(2*m/h**2*e_r, lambda x : 2*m/h**2 * v(x))
+
+        fig = plt.figure(figsize=(7, 7))
+
+        plt.plot(np.array(le_u), 100*np.array(f_u) + e_r, label = "Wave Function")
+        plt.plot(le_u, v(le_u), label = "Potential")
+        plt.axhline(e, color="g", label = "Energy of Particle")
+        plt.title(r"E_{0}: {1:.3f}".format(list(E_val_u).index(e), e_r))
+        plt.xlim(0, 3.5)
+        plt.ylim(-100, 300)
+
+        plt.legend()
+        plt.ylabel("Energy")
+        plt.xlabel("Position")
+
+
+        plt.savefig("WF_E{0}.eps".format(list(E_val_u).index(e)))
+        plt.show()
+        print('Erwartungswert v(x):', v_av(e, v, le_u, f_u))
 
 
     # mittlere potentielle Energie
