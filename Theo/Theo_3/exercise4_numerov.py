@@ -5,6 +5,9 @@ from scipy import signal
 import matplotlib.pyplot as plt
 import numpy as np
 
+m = 1
+h = 1
+
 # Numerov Algorithmus
 def numerov(eps, v, f0, f0p, step=0.001, thres=10.):
     """solves the equation -f''(x) + v(x) f(x) = eps f(x)
@@ -131,7 +134,7 @@ def v(x):
     return np.array(x)**4
 
 def func(x):
-    l, _ = numerov_g(x, v)
+    l, _ = numerov_g(x, lambda x : 2*m/h**2 * v(x))
     return l[-1]
 
 # hier kommt das eigentliche Programm, dass editiert werden muss
@@ -148,7 +151,7 @@ def main():
 
     while (len(peakind) < 10):
         # gerade Wellenfunktion bestimmen
-        le, f = numerov_g(eps, v)
+        le, f = numerov_g(eps, lambda x : 2*m/h**2 * v(x))
         df = abs(num_derivative(eps, func))
         
         if df != 0.0:
@@ -172,7 +175,9 @@ def main():
         eps_s_sub.append(eps_s[ind])
         len_s_sub.append(len_s[ind])
 
-    print(eps_s_sub)
+    E_val = np.asarray(eps_s_sub)
+    E_val *= h**2/(2*m)
+    print(E_val)
     
     fig = plt.figure(figsize=(7, 7))
     
@@ -191,16 +196,16 @@ def main():
     # alternativ: ungerade Wellenfunktion bestimmen
     #x, f = numerov_u(eps, v)
     
-    for e in eps_s_sub:
+    for e in list(E_val):
         e_r = e
-        le_g, f_g = numerov_g(e_r, v)
+        le_g, f_g = numerov_g(2*m/h**2*e_r, lambda x : 2*m/h**2 * v(x))
         
         fig = plt.figure(figsize=(7, 7))
         
         plt.plot(np.array(le_g), 100*np.array(f_g) + e_r, label = "Wave Function")
         plt.plot(le_g, v(le_g), label = "Potential")
         plt.axhline(e, color="g", label = "Energy of Particle")
-        plt.title(r"E_{0}: {1:.3f}".format(eps_s_sub.index(e), e_r))
+        plt.title(r"E_{0}: {1:.3f}".format(list(E_val).index(e), e_r))
         plt.xlim(0, 3.5)
         plt.ylim(-100, 300)
         
@@ -209,7 +214,7 @@ def main():
         plt.xlabel("Position")
         
         
-        plt.savefig("WF_E{0}.eps".format(eps_s_sub.index(e)))
+        plt.savefig("WF_E{0}.eps".format(list(E_val).index(e)))
         plt.show()
         print('Erwartungswert v(x):', v_av(e, v, le, f))
 
