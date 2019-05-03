@@ -15,4 +15,4 @@ def E_somm( n ):
 
 print("n\tE_n;wkb           \tE_n;somm")
 for n in range(20):
-    print("{0}\tE_{0};wkb = {1:2.3f}  \tE_{0};somm = {2:2.3f}".format(n, E_wkb(n), E_somm(n+1)))
+    print("{0}\tE_{0};wkb = {1:2.3f}  \tE_{2};somm = {3:2.3f}".format(n, E_wkb(n), n, E_somm(n)))
