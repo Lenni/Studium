@@ -66,6 +66,7 @@ plt.legend()
 
 plt.title("Recorded Data")
 
+plt.savefig("Raw.eps", bbox_inches="tight")
 plt.show()
 
 ####Teil B
@@ -89,6 +90,7 @@ plt.ylabel("Intensity")
 plt.legend()
 plt.title("Fitting of Models to Peak")
 
+plt.savefig("Fit.eps", bbox_inches="tight")
 plt.show()
 
 m_Rb = 1.4192e-25
@@ -115,6 +117,7 @@ plt.xlabel("Frequency in GHz")
 plt.ylabel("Intensity")
 plt.legend()
 
+plt.savefig("Fit_All.eps", bbox_inches="tight")
 plt.title("Fit to all Data")
 
 plt.show()
