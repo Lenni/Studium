@@ -8,6 +8,8 @@ import math
 
 def main():
 	
+	#Aufgabenteil b)
+	
 	# initialisiere TLorentzVector-Objekt und setze Pt, eta, phi und M. Damit ist der Vierervektor vollstaendig bestimmt
 	c_ = TLorentzVector()
 	c_.SetPtEtaPhiM(99.83,0.332,-2.45,0)
@@ -42,5 +44,16 @@ def main():
 	print("Masse Anti-Top: " + str(t_.M()))
 	print("Masse Top: " + str(t.M()))
 	print(t_)
+	
+	# Aufgabenteil c)
+	
+	s = t + t_
+	
+	rapidity = 1/2*math.log((s.E() +s.Pt())/(s.E() - s.Pt()))
+	
+	print(s.M())
+	print(s.Pt())
+	print(s.E())
+	print(rapidity)
 	
 main()
