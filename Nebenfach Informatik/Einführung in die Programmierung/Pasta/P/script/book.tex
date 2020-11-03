@@ -1,0 +1,953 @@
+\documentclass[11pt]{book}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{wasysym}
+\usepackage{array}
+\usepackage{wrapfig}
+\usepackage[dvips]{epsfig,psfrag}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage[german]{babel}
+\usepackage{color}
+\usepackage{palatino}
+
+\newcommand{\refchapter}[1]{Kapitel~\ref{#1}}
+\newcommand{\refsec}[1]{Abschnitt~\ref{#1}}
+\newcommand{\reffig}[1]{Abbildung~\ref{#1}}
+\newcommand{\refex}[1]{Beispiel~\ref{#1}}
+
+\newcommand{\Pasta}{\textcolor{brown}{{\bf \em P}{\scriptsize{(asta)}}}}
+
+
+\title{\bf Die Programmiersprache \Pasta} 
+
+\author{Prof. Dr. Uwe Naumann}
+\date{
+LuFG Informatik 12 \\
+RWTH Aachen
+}
+
+\begin{document}
+
+\pagestyle{plain}
+
+\maketitle
+
+\chapter*{Vorwort}
+
+In dieser Vorlesung stelle ich die (hoffentlich) intuitive Programmiersprache
+\Pasta\ vor. Habe sogar einen Compiler (bzw. Interpreter) daf\"ur 
+geschrieben! 
+%Diesen findet ihr auf
+%\color{blue}
+%\begin{center}
+%\tt http://stce.rwth-aachen.de/Pasta
+%\end{center}
+%\color{black}
+%inklusive einer kurzen Anleitung zu dessen Installation.
+
+Was auch immer in \Pasta\ geht, kann (und werde) ich live
+mithilfe eines Stapels von Tellern und einer 
+T\"ute voller Nudeln
+zeigen. Nachdem ich diverse Nudelumschichtungsdurchg\"ange, z.B.
+zur Berechnung der Fakult\"at einer gegeben Zahl (von Nudeln), hinter mich
+gebracht haben werde, wird sich der Nutzen der Programmiersprache \Pasta\
+eindrucksvoll best\"atigt haben. 
+Anschlie\ss end sind weitere Beispiele geplant sowie Details zur 
+Implementierung von \Pasta\ in Form des Pasta-Compilers 
+\textcolor{red}{\tt Pc}. Gern k\"onnen wir auch gemeinsam an der 
+L\"osung eines beliebigen Problems arbeiten oder aber einfach die
+Nudeln essen...
+
+Die Programmiersprache \Pasta\ ist in der Entwicklung. Version 1 soll nicht
+der Weisheit letzter Schluss sein. Einerseits sind
+weitere Beispiele herzlich willkommen! Sendet sie bitte
+inklusive 
+\begin{enumerate}
+\item einer kurzen Beschreibung der zu l\"osenden Aufgabe
+\item eines m\"oglichst detailliert dokumentieren Quellcodes
+\item einer (oder bei Bedarf auch mehrerer) dokumentierten Beispielsitzung
+\end{enumerate}
+an
+\color{blue}
+{\tt naumann@stce.rwth-aachen.de}
+\color{black}
+... vielen Dank!
+Andererseits bin ich auch f\"ur Ideen zur Weiterentwicklung von
+\Pasta\ dankbar. Dabei soll vor allem die Nat\"urlichsprachigkeit von
+\Pasta\ sichergestellt werden, was gar nicht so einfach ist, wie es 
+klingt ... \\
+\\
+Viel Spa\ss \\
+\\
+Uwe Naumann
+\vfill
+
+\tableofcontents
+
+\lstset{basicstyle=\normalsize,frame=none}
+
+\chapter{Sprache}
+
+\Pasta\ Programme beginnen mit der Bereitstellung von
+Speicherplatz in Form von Tellern (siehe \refsec{sec:vars})
+und werden durch
+\color{red}
+\begin{lstlisting}
+Bis bald!
+\end{lstlisting}
+\color{black}
+beendet, worauf sich das Programm mittels 
+\color{purple}
+\begin{lstlisting}
+Guten Appetit!
+\end{lstlisting}
+\color{black}
+verabschiedet.
+
+\section{Variablen und Werte} \label{sec:vars}
+
+Der Hauptspeicher des Computers wird durch Teller repr\"asentiert. 
+Dessen Gr\"o\ss e wird mithilfe des
+\textcolor{red}{\lstinline{[Hole dir ... Teller]}}-Sprachkonstrukts
+explizit festgelegt: 
+\color{red}
+\begin{lstlisting}
+Hole dir <wieviele> Teller!
+\end{lstlisting}
+\color{black}
+Individuelle Anweisungen werden mit Ausrufezeichen abgeschlossen.
+So wird z.B. mittels
+\color{blue}
+\begin{lstlisting}
+Hole dir 3 Teller!
+\end{lstlisting}
+\color{black}
+Speicher der Gr\"o\ss e 3 reserviert (alloziert). 
+
+Auf den Tellern liegende Nudeln stellen (ganzzahlige) Werte dar.
+Die aktuelle Version von \Pasta\ kennt nur ganze Zahlen.
+Nach ihrer Allokation sind alle Teller leer.
+
+\paragraph{Dasselbe in C++}
+In C++ k\"onnte man ein Feld der Gr\"o\ss e 3 von Elementen ganzzahligen Typs allozieren und zu Null initialisieren.
+\begin{lstlisting}
+int t[3]={0,0,0};
+\end{lstlisting}
+
+\section{Zuweisungen}
+
+Das Hinzuf\"ugen von Nudeln zu Tellern geschieht durch Verwendung des
+\textcolor{red}{\lstinline{[Lege ... auf]}}-Sprachkonstrukts:
+\color{red}
+\begin{lstlisting}
+Lege <wieviele> Nudeln auf <welchen Teller>!
+\end{lstlisting}
+\color{black}
+Analog, erlaubt das
+\textcolor{red}{\lstinline{[Nimm ... von]}}-Sprachkonstrukt
+das Entfernen von Nudeln:
+\color{red}
+\begin{lstlisting}
+Nimm <wieviele> Nudeln von <welchem Teller>!
+\end{lstlisting}
+\color{black}
+
+Der Zugriff auf die einzelnen Teller geschieht \"uber eine eindeutige
+Nummer $1,2,\ldots$, z.B.  \lstinline{Teller 1}, \lstinline{Teller 2}, und
+\lstinline{Teller 3}. Alle Zuweisungen sind inkrementell bzw. dekrementell.
+So f\"ugt z.B. die Anweisung
+\color{blue}
+\begin{lstlisting}
+Lege 9 Nudeln auf Teller 1!
+\end{lstlisting}
+\color{black}
+neun zu den bereits auf Teller 1 liegenden Nudeln hinzu. Mittels
+\color{blue}
+\begin{lstlisting}
+Nimm 4 Nudeln von Teller 1!
+\end{lstlisting}
+\color{black}
+werden vier Nudeln von Teller 1 entfernt.
+
+\paragraph{Dasselbe in C++}
+In C++ k\"onnte man mittels
+\begin{lstlisting}
+t[0]+=9;
+\end{lstlisting}
+neun Nudeln auf Teller 1 legen bzw. mittels
+\begin{lstlisting}
+t[0]-=4;
+\end{lstlisting}
+davon vier wieder entfernen.
+
+
+
+
+\section{Ein- und Ausgabe}
+Zur Ein- bzw. Ausgabe stellt \Pasta\
+\textcolor{red}{\lstinline{[Frag mich]}}- bzw.  
+\textcolor{red}{\lstinline{[Sag mir]}}-Sprach-konstrukte zur Verf\"ugung.
+
+Die Anzahl der auf einem Teller liegenden Nudeln kann durch Benutzereingabe
+explizit gesetzt werden, z.B. resultiert
+\color{blue}
+\begin{lstlisting}
+Frag mich, wieviele Nudeln auf Teller 1 liegen sollen!
+\end{lstlisting}
+\color{black}
+in der Ausgabe
+\color{purple}
+\begin{lstlisting}
+Wieviele Nudeln liegen auf Teller 1?
+:-) 
+\end{lstlisting}
+\color{black}
+Von den Benutzer(innen) des Programms wird daraufhin die Eingabe einer ganzen Zahl,
+z.B. 3, erwartet. Infolgedessen wird die Anzahl der Nudeln auf Teller 1 auf drei
+gesetzt, was einer nichtinkrementellen Zuweisung von drei (Nudeln) zu Teller 1
+entspricht.
+
+M\"ochte man wissen, wieviel Nudeln auf einem Teller liegen, so kann man das z.B.
+mittels
+\color{blue}
+\begin{lstlisting}
+Sag mir, wieviele Nudeln auf Teller 1 liegen!
+\end{lstlisting}
+\color{black}
+abfragen. Weitere zul\"assige Fragen in P(asta) resultieren in 
+\color{purple}
+\lstinline{Ja}
+\color{black}
+order
+\color{purple}
+\lstinline{Nein}
+\color{black}
+als m\"oglich Antworten.
+So kann man z.B. mithilfe der Anweisung
+\color{blue}
+\begin{lstlisting}
+Sag mir, ob Teller 1 voller als Teller 2 ist!
+\end{lstlisting}
+\color{black}
+erfahren, ob auf Teller 1 mehr Nudeln liegen als auf Teller 2.
+Alternativ, k\"onne man mittels
+\color{blue}
+\begin{lstlisting}
+Sag mir, ob Teller 1 genauso voll wie Teller 2 ist!
+\end{lstlisting}
+\color{black}
+erfragen, ob auf beiden Tellern die gleiche Anzahl von Nudeln liegt.
+
+Weitere m\"ogliche Bedingungen sind
+\color{blue}
+\begin{lstlisting}
+... Teller 1 leerer als Teller 2 ...
+... Teller 1 nicht leerer als Teller 2 ...
+... Teller 1 nicht voller als Teller 2 ...
+... Teller 1 nicht genauso voll wie Teller 2 ...
+... Teller 1 leer...
+... Teller 1 nicht leer...
+\end{lstlisting}
+\color{black}
+wobei die zu vergleichenden Teller nat\"urlich beliebige
+innerhalb des allozierten Indexbereichs liegende Nummern
+haben k\"onnen. Desweiteren k\"onnen Bedingungen durch 
+\textcolor{red}{\lstinline{und}} bzw. \textcolor{red}{\lstinline{oder}}
+verkn\"upft werden, z.B. w\"are
+\color{blue}
+\begin{lstlisting}
+Teller 1 voller als Teller 2 
+oder 
+Teller 1 nicht genauso voll wie Teller 2
+\end{lstlisting}
+\color{black}
+\"aquivalent zu 
+\color{blue}
+\begin{lstlisting}
+Teller 1 nicht leerer als Teller 2
+\end{lstlisting}
+\color{black}
+
+\paragraph{Dasselbe in C++}
+Eine Aufforderung zur Eingabe in \Pasta\ kann in
+C++ unter Verwendung von
+\begin{lstlisting}
+#include<iostream>
+using namespace std;
+\end{lstlisting}
+z.B. wie folgt implementiert werden.
+\begin{lstlisting}
+cout << "Wieviele Nudeln liegen auf Teller 1?" << endl;
+cin >> t[0];
+\end{lstlisting}
+Zur Ausgabe der Anzahl von Nudeln auf Teller 1 schreibt
+man z.B.
+\begin{lstlisting}
+cout << "Auf Teller 1 ";
+if (t[0]==1)
+  cout << "liegt 1 Nudel." 
+else
+  cout << "liegen " << t[0] << " Nudeln." << endl;
+\end{lstlisting}
+Die Ausgabe von Wahrheitswerten kann z.B. wie folgt geschehen.
+\begin{lstlisting}
+bool c=t[0]==t[1];
+// bool c=t[0]<t[1];
+// bool c=!(t[0]<t[1]);
+// bool c=!(t[0]>t[1]);
+// bool c=t[0]!=t[1];
+// bool c=t[0]==0;
+// bool c=t[0]>0;
+if (c)
+   cout << "Ja." << endl;
+else
+   cout << "Nein." << endl;
+\end{lstlisting}
+
+\section{Optionale Anweisungen}
+
+Optionale Anweisungen, deren Ausf\"uhrung vom Wahrheitswert einer Bedingung
+abh\"angt, werden mittels eines \textcolor{red}{\lstinline{[Mache folgendes ... wenn]}}-Sprach-konstrukts implementiert: 
+\color{red}
+\begin{lstlisting}
+Mache folgendes,
+  <anweisung>,
+wenn <Bedingung>!
+\end{lstlisting}
+\color{black}
+Dabei wird die optionale Anweisung klein geschrieben und mit einem Komma
+abgeschlossen.
+So wird z.B. aufgrund
+\color{blue}
+\begin{lstlisting}
+Mache folgendes,
+  lege 1 Nudel auf Teller 2,
+wenn Teller 1 voller als Teller 2 ist!
+\end{lstlisting}
+\color{black}
+nur dann eine zus\"atzliche Nudel auf Teller 1 gelegt, wenn auf Teller 1 bereits
+mehr Nudeln als auf Teller 2 liegen.
+
+\paragraph{Dasselbe in C++}
+Bedingte Folgen von Anweisungen k\"onnen in C++ in mittels
+m\"oglicherweise geschachtelter \lstinline{if}-Anweisungen 
+implementiert werden, z.B.
+\begin{lstlisting}
+if (c) {
+  ...
+}
+\end{lstlisting}
+wobei \lstinline{c} einen entsprechenden Wahrheitswert
+bezeichnet.
+
+\section{Schleifen}
+
+Soll eine Anweisungen sooft wiederholt werden bis eine zu spezifizierende Bedingung
+nicht mehr erf\"ullt ist, dann bietet sich die Verwendung des
+\textcolor{red}{\lstinline{[Wiederhole ... solange]}}-Sprachkonstrukts an: 
+\color{red}
+\begin{lstlisting}
+Wiederhole folgendes,
+  <anweisung>,
+solange <Bedingung>!
+\end{lstlisting}
+\color{black}
+Wie bei optionalen Anweisungen wird die potentiell zu wiederholende Anweisung 
+klein geschrieben und mit einem Komma abgeschlossen.
+So wird z.B. aufgrund
+\color{blue}
+\begin{lstlisting}
+Wiederhole folgendes,
+  lege 1 Nudel auf Teller 2,
+solange Teller 1 voller als Teller 2 ist!
+\end{lstlisting}
+\color{black}
+wiederholt eine zus\"atzliche Nudel auf Teller 2 gelegt, bis auf Teller 2 
+genauso viele
+Nudeln wie auf Teller 1 liegen.
+
+\paragraph{Dasselbe in C++}
+\Pasta-Schleifen k\"onnen in C++ wie folgt imlementiert werden
+\begin{lstlisting}
+do {
+  ...
+} while (c);
+\end{lstlisting}
+wobei \lstinline{c} einen entsprechenden Wahrheitswert
+bezeichnet.
+
+\section{Anweisungssequenzen}
+
+Sequenzen von Anweisungen werden durch einfache Aneinanderreihung von Anweisungen
+gebildet:
+\color{red}
+\begin{lstlisting}
+<Anweisung>!
+<Anweisung>!
+<Anweisung>!
+\end{lstlisting}
+\color{black}
+Z.B. wird man mittels
+\color{blue}
+\begin{lstlisting}
+Frag mich,
+  wieviele Nudeln auf Teller 1 liegen sollen!
+Sag mir,
+  wieviele Nudeln auf Teller 1 liegen!
+\end{lstlisting}
+\color{black}
+erst zur Eingabe eines Wertes aufgefordert, welcher dann
+umgehend wieder ausgegeben wird.
+
+Innerhalb von optionalen Anweisungen (\textcolor{red}{\lstinline{[Mache folgendes ... wenn]}}) und Schleifen
+(\textcolor{red}{\lstinline{[Wiederhole folgendes ... solange]}})
+werden einzelne Anweisungen klein geschrieben, mit Komma abgeschlossen und mittels 
+\textcolor{red}{\lstinline{und}} getrennt:
+\color{red}
+\begin{lstlisting}
+...
+  <anweisung>, und
+  <anweisung>, und
+  <anweisung>,
+...
+\end{lstlisting}
+\color{black}
+Im folgenden Beispiel wird ein Wert solange abgefragt und unmittelbar wieder
+ausgegeben, bis eine Null eingegeben wird.
+\color{blue}
+\begin{lstlisting}
+Lege 1 Nudel auf Teller 1!
+Wiederhole folgendes,
+  frag mich,
+    wieviele Nudeln auf Teller 1 liegen sollen,
+  und
+  sag mir,
+    wieviele Nudeln auf Teller 1 liegen,
+solange Teller 1 nicht leer ist!
+\end{lstlisting}
+\color{black}
+
+\chapter{Beispiele}
+
+\section{Grundrechenarten}
+
+\subsection{Addition}
+
+Zur Addition zweier nat\"urlicher Zahlen werden die beiden Summanden
+durch Nudeln auf den Tellern 1 und 2 repr\"asentiert. Entsprechende
+Zahlen von Nudeln werden dann jeweils auf Teller 3 gelegt, was das 
+gesuchte Resultat ergibt.
+
+\subsubsection{\Pasta\ Program}
+\color{blue}
+\lstinputlisting{../examples/addition.p}
+\color{black}
+
+\subsubsection{Beispielsitzung}
+\color{purple}
+\begin{lstlisting}
+Wieviele Nudeln liegen auf Teller 1?
+:-) 47
+:
+Wieviele Nudeln liegen auf Teller 2?
+:-) 34
+:
+Auf Teller 3 liegen 81 Nudeln.
+:
+Guten Appetit!
+\end{lstlisting}
+\color{black}
+
+\subsubsection{Dasselbe in C++}
+
+\lstinputlisting{../../C++/addition.cpp}
+\subsection{Subtraktion}
+
+Zur Subtraktion zweier nat\"urlicher Zahlen wird der Minuend
+durch Nudeln auf den Teller 1 und der Subtrahend entsprechend durch 
+Nudeln auf Teller 2 repr\"asentiert. Dabei muss sichergestellt werden,
+dass der Subtrahend nicht gr\"o\ss er als der Minuend ist. Sollte das
+nicht der Fall sein, so wird der Wahrheitswert der Bedingung
+\color{blue}
+\begin{lstlisting}
+Teller 2 voller als Teller 1
+\end{lstlisting}
+\color{black}
+also \textcolor{purple}{\lstinline{Ja}} auf den Bildschirm ausgegeben.
+Anderenfalls werden soviele Nudeln, wie auf Teller 2 liegen, von Teller
+1 entfernt. Die auf Teller 1 verbleibende Anzahl von Nudeln stellt
+das Resultat der Subtraktion dar.
+
+\subsubsection{\Pasta\ Program}
+\color{blue}
+\lstinputlisting{../examples/subtraktion.p}
+\color{black}
+
+\subsubsection{Beispielsitzung}
+\color{purple}
+\begin{lstlisting}
+Wieviele Nudeln liegen auf Teller 1?
+:-) 47
+:
+Wieviele Nudeln liegen auf Teller 2?
+:-) 34
+:
+Nein.
+:
+Auf Teller 3 liegen 13 Nudeln.
+:
+Guten Appetit!
+\end{lstlisting}
+\color{black}
+
+\subsubsection{Dasselbe in C++}
+
+\lstinputlisting{../../C++/subtraction.cpp}
+
+\subsection{Multiplikation}
+
+Zur Multiplikation zweier nat\"urlicher Zahlen werden die beiden 
+Faktoren
+durch Nudeln auf den Tellern 1 und 2 repr\"asentiert. W\"ahrend
+einer Anzahl von Schleifeniterationen, die gleich der auf Teller 2
+liegenden Zahl von Nudeln ist, werden jeweils soviele Nudeln auf Teller
+3 gelegt, wie sich auf Teller 1 befinden. Das Resultat ergibt sich
+anschlie\ss end zur Anzahl der auf Teller 3 liegenden Nudeln.
+
+\subsubsection{\Pasta\ Program}
+\color{blue}
+\lstinputlisting{../examples/multiplikation.p}
+\color{black}
+
+\subsubsection{Beispielsitzung}
+\color{purple}
+\begin{lstlisting}
+Wieviele Nudeln liegen auf Teller 1?
+:-) 47      
+:
+Wieviele Nudeln liegen auf Teller 2?
+:-) 34
+:
+Auf Teller 3 liegen 1598 Nudeln.
+:
+Gute Appetit!
+\end{lstlisting}
+\color{black}
+
+\subsubsection{Dasselbe in C++}
+
+\lstinputlisting{../../C++/multiplication.cpp}
+
+\subsection{Division}
+
+Zur ganzzahligen Division zweier nat\"urlicher Zahlen wird der Dividend
+durch Nudeln auf den Teller 1 und der Divisor entsprechend durch 
+Nudeln auf Teller 2 repr\"asentiert. Zur Berechnung des Quotienten und 
+des Rests werden innerhalb einer Schleife jeweils soviele Nudeln, wie
+auf Teller 2 liegen, von Teller 1 entfernt. Pro Schleifeniteration wird
+der Wert des Quotienten auf Teller 3 um eins erh\"oht. Die Schleife
+wird verlassen, sobald auf Teller 1 weniger Nudeln liegen als auf
+Teller 2. Die auf Teller 1 verbleibenden Nudeln stellen den
+Rest der ganzzahligen Division dar.
+
+\subsubsection{\Pasta\ Program}
+\color{blue}
+\lstinputlisting{../examples/division.p}
+\color{black}
+
+\subsubsection{Beispielsitzung}
+\color{purple}
+\begin{lstlisting}
+Wieviele Nudeln liegen auf Teller 1?
+:-) 47
+:
+Wieviele Nudeln liegen auf Teller 2?
+:-) 34
+:
+Auf Teller 3 liegt 1 Nudel.
+:
+Auf Teller 1 liegen 13 Nudeln.
+:
+Guten Appetit!
+\end{lstlisting}
+\color{black}
+
+\subsubsection{Dasselbe in C++}
+
+\lstinputlisting{../../C++/division.cpp}
+
+\section{Was schon der kleine Gauss machen musste ...}
+
+Vom Sch\"uler Carl-Friedrich Gauss wird sich folgende Geschichte
+erz\"ahlt: 
+
+``Eines Tages hatte sein Mathelehrer mal keine Lust und 
+wollte sich durch eine seiner Meinung nach besonders aufw\"andige 
+Aufgabe etwas Freizeit beschaffen. Er lie\ss\ die Klasse alle Zahlen 
+von 1 bis 100 aufsummieren, in der Hoffnung, dass diese damit wenigstens
+15 Minuten besch\"aftigt sei. 
+
+Anstatt wild darauf los zu addieren, schaltete der kleine Gauss seinen
+schon damals hellen Kopf ein und erkannte, dass sowohl 1+100 als auch
+2+99 als auch 3+98 ... als auch 50+51 jeweils 101 ergaben. 
+Er z\"ahlte insgesamt 50 dieser Summen und meldete nach wenigen Sekunden 
+mit dem Resultat 5050=50*101 zur\"uck. Die erhoffte Pause des 
+Mathelehrers wurde siginfikant verk\"urzt...''
+
+Dank \Pasta\ m\"ussen wir nicht ganz so schlau wie Gauss sein.
+Der Computer ist bekannterma\ss en bei der Summation gro\ss er
+Zahlenfolgen signifikant effizienter als wir. \"Ubergeben wir 
+also ihm den Job...
+
+\subsubsection{\Pasta\ Program}
+\color{blue}
+\lstinputlisting{../examples/gauss.p}
+\color{black}
+
+\subsubsection{Beispielsitzung}
+\color{purple}
+\begin{lstlisting}
+Wieviele Nudeln liegen auf Teller 1?
+:-) 10
+:
+Auf Teller 3 liegen 55 Nudeln.
+:
+Guten Appetit!
+\end{lstlisting}
+\color{black}
+
+\subsubsection{Dasselbe in C++}
+
+\lstinputlisting{../../C++/gauss.cpp}
+
+\section{Fakult\"at}
+
+Die Berechnung der Fakult\"at einer nat\"urlichen Zahl
+\"ahnelt dem Problem des kleinen Gauss bis auf die Tatsache,
+dass die Elemente der Zahlenfolge nicht addiert sondern multipliziert
+werden. Desweiteren ist per Definition $0!=1$, was durch die 
+Initialisierung des Resultatstellers (Teller 3) mit einer Nudel
+gew\"ahrleistet ist. Anschlie\ss end werden die ben\"otigten
+Multiplikationen durchgef\"uhrt und das Resultat ausgegeben.
+
+\subsubsection{\Pasta\ Programm}
+\color{blue}
+\lstinputlisting{../examples/fakultaet.p}
+\color{black}
+\subsubsection{Beispielsitzung}
+\color{purple}
+
+\begin{lstlisting}
+Wieviele Nudeln liegen auf Teller 1?
+:-) 5
+:
+Auf Teller 3 liegen 120 Nudeln.
+:
+Guten Appetit!
+\end{lstlisting}
+\color{black}
+
+\subsubsection{Dasselbe in C++}
+
+\lstinputlisting{../../C++/fakultaet.cpp}
+
+\end{document}
+
+
+\subsection{Beispiele}
+
+\subsubsection{\tt gauss.p}
+
+\begin{center}
+\includegraphics[width=\textwidth]{figures/gauss.eps}
+\end{center}
+
+\section{Interpreter}
+
+\chapter{Dasselbe in C}
+
+Existierende Programmiersprachen 
+basieren meist auf dem Englischen und sind sehr abstrakt gehalten, was
+den Zugang oft stark erschwert bzw. unm\"oglich erscheinen l\"asst. 
+Zum Beispiel ist 
+\begin{lstlisting}
+Hole Dir 2 Teller!
+Lege 2 Nudeln auf Teller 1!
+Lege 3 Nudeln auf Teller 2!
+\end{lstlisting}
+sicher intuitiver als
+\begin{lstlisting}
+int t1,t2;
+t1+=2;
+t2+=3;
+\end{lstlisting}
+Desweiteren erleichtert das Verst\"andnis eines \Pasta\ Programms 
+den Zugang
+zur abstrakteren Notation vieler ``richtiger'' Programmiersprachen 
+wie z.B. C.
+
+\paragraph{Nudeln sind ein Datentyp.} 
+
+Nat\"urliche Zahlen $0,1,2,\ldots$ werden durch Nudeln bzw. deren Anzahl
+repr\"asentiert. C bietet den Datentyp
+``vorzeichenlose ganze Zahl"\ ({\tt unsigned int}) an.
+
+\paragraph{Teller sind Variablen.}
+Variablen haben einen Typ. In unserem Falle enthalten Teller Nudeln, was
+Variablen von Typ ``vorzeichenlose ganze Zahl"\ entspricht. Durch
+\begin{lstlisting}
+Hole Dir 2 Teller!
+\end{lstlisting}
+ werden 2 Variablen dieses
+Typs deklariert, auf die dann mittel \lstinline{Teller 1} und
+\lstinline{Teller 2} zugegriffen werden kann. Die Bereitstellung
+anderer Anzahlen von Tellern und der Zugriff auf diese funktionieren
+analog. Neue Teller sind leer.
+In C w\"urde man
+\begin{lstlisting}
+unsigned int t1, t2;
+\end{lstlisting}
+schreiben.
+
+\paragraph{Zuweisungen von Werten an Variablen.}
+Der Wert von Variablen kann durch Zuweisungen ver\"andert werden. 
+Zum Beispiel
+w\"urde man in C durch 
+\begin{lstlisting}
+t1=2; 
+\end{lstlisting}
+der Variable \lstinline{t1} den Wert 
+\lstinline{2} zuweisen. In Anlehnung daran legen wir Nudeln auf Teller bzw.
+entfernen diese wieder. \"Uberschreibung von Variablen erlauben wir nicht,
+da dieses Konzept nicht intuitiv genug erscheint. Nehmen wir z.B. an, dass
+Teller 1 eine Nudel enth\"alt. Eine Zuweisung von zwei Nudeln zu Teller 1
+ist \"aquivalent zum Hinzuf\"ugen einer Nudel.
+Die Erkl\"arung zur Zuweisung \lstinline{t1=2;} m\"usste demnach in etwa
+wie folgt lauten: {\em Wir entfernen alle Nudeln von Teller 1 und legen
+dann zwei drauf.} Ihr Kind wird Sie wahrscheinlich berechtigterweise fragen:
+{\em Warum legen wir nicht einfach noch eine Nudel auf Teller 1?} ...
+Genau das tun wir: 
+\begin{lstlisting}
+Lege 1 Nudel auf Teller 1!
+\end{lstlisting}
+Die Motivation der Umsetzung einer Zuweisung von
+eins zu einer Variable mit dem Wert zwei mittels Wegnehmen funktioniert
+analog.
+\begin{lstlisting}
+Nimm 1 Nudel von Teller 1!
+\end{lstlisting}
+
+\paragraph{Ausgaben.}
+Die Anweisung
+\begin{lstlisting}
+Sag mir, wieviele Nudeln auf Teller 1 liegen!
+\end{lstlisting}
+bedingt die Ausgabe der entsprechenden Anzahl\footnote{Es m\"usste jetzt genau
+eine Nudel draufliegen.} auf den Bildschirm.
+Teller 2, Teller 3, usw. funktionieren analog.
+In C w\"urde man 
+\begin{lstlisting}
+printf("%d\n",t1);
+\end{lstlisting}
+schreiben. Die Erkl\"arung dieses Ausdrucks ist Grundsch\"ulern
+nicht zumutbar.
+
+
+\paragraph{Gerechnet wird auch.}
+Die Zahl der Nudeln, welche auf einen Teller gelegt bzw. von diesem
+entfernt werden sollen, kann das Ergebnis einer beliebig komplexen Berechnung
+sein. Dem Entwicklungsstand von Grundsch\"ulern entsprechend bieten wir
+Addition und Subtraktion mit Werten von Variablen (Anzahl von Nudeln auf 
+Tellern) und Konstanten (nat\"urlichen Zahlen) an. Nehmen wir z.B. an, dass
+auf Teller 1 zwei und auf Teller 2 vier Nudeln liegen und dass auf
+die Summe beider (sechs) zu Teller 1 hinzugf\"ugt werden soll.
+\begin{lstlisting}
+Lege 
+  soviele Nudeln wie auf Teller 1 liegen 
+  + 
+  soviele Nudeln wie auf Teller 2 liegen 
+auf Teller 1!
+\end{lstlisting}
+In C w\"urde man 
+\begin{lstlisting}
+t1+=t1+t2;
+\end{lstlisting}
+schreiben, was ohne Zweifel kompakter ist.\footnote{Unser Ziel ist nicht die 
+Konvertierung von C-Programmierern in Anh\"anger unserer Sprache... 
+Mit einiger Sicherheit erleichtert die Lekt\"ure dieses Buches jedoch die 
+umgekehrte Entwicklung.}
+
+\paragraph{Manchmal will man nur Ja oder Nein als Antwort.}
+
+[2DO]
+
+\paragraph{Bedingte Anweisungen.}
+Manche Anweisungen sollen nur unter bestimmten Bedingungen ausgef\"uhrt
+werden. Zum Beispiel will man nur dann eine Nudeln von 
+Teller 1 nehmen, wenn dieser nicht leer ist. In C k\"onnte man
+\begin{lstlisting}
+if (t1!=0) t1-=1;
+\end{lstlisting}
+schreiben, was Ihr Kind wahrscheinlich nicht m\"ogen w\"urde...
+In unserer Sprache darf
+\begin{lstlisting}
+Mach folgendes, 
+  nimm 1 Nudel von Teller 1,
+wenn
+  Teller 1 nicht leer 
+ist! 
+\end{lstlisting}
+geschrieben werden.
+
+\paragraph{Eingaben zur Laufzeit des Programms.}
+
+[2DO]
+
+\paragraph{Schleifen.}
+
+[2DO]
+
+
+\bibliographystyle{plain}
+\bibliography{book}
+
+\appendix
+
+\chapter{\Pasta\ Programmsammlung}
+
+\section{Gerade und Ungerade Zahlen}
+
+Jede gerade Zahl ist durch eine Summe von Zweien
+$2+2+\ldots+2$ darstellbar. 
+
+\subsubsection{\Pasta\ Programm}
+\color{blue}
+\lstinputlisting{../examples/beispiel010.p}
+\color{black}
+
+\subsubsection{Beispielsitzung}
+\color{purple}
+\begin{lstlisting}
+Wieviele Nudeln liegen auf Teller 2?
+:-) 3
+:
+Nein.
+:
+Guten Appetit!
+\end{lstlisting}
+bzw.
+\begin{lstlisting}
+Wieviele Nudeln liegen auf Teller 2?
+:-) 22222
+:
+Ja.
+:
+Guten Appetit!
+\end{lstlisting}
+\color{black}
+
+\section{Primzahlen}
+
+Primzahlen sind nur als Summe von Einsen
+$1+1+\ldots+1$ darstellbar. 
+
+\subsection{Primzahltest}
+
+\subsubsection{\Pasta\ Programm}
+\color{blue}
+\lstinputlisting{../examples/beispiel011.p}
+\color{black}
+\subsubsection{Beispielsitzung}
+\color{purple}
+\begin{lstlisting}
+Wieviele Nudeln liegen auf Teller 1?
+:-) 5
+:
+Ja.
+:
+Guten Appetit!
+\end{lstlisting}
+bzw.
+\begin{lstlisting}
+Wieviele Nudeln liegen auf Teller 1?
+:-) 77
+:
+Nein.
+:
+Guten Appetit!
+\end{lstlisting}
+\color{black}
+
+\subsection{Alle Primzahlen}
+
+\subsubsection{\Pasta\ Program}
+\color{blue}
+\lstinputlisting{../examples/beispiel012.p}
+\color{black}
+\subsubsection{Beispielsitzung}
+\color{purple}
+\begin{lstlisting}
+Wieviele Nudeln liegen auf Teller 6?
+:-) 20
+:
+Auf Teller 1 liegen 2 Nudeln.
+:
+Auf Teller 1 liegen 3 Nudeln.
+:
+Auf Teller 1 liegen 5 Nudeln.
+:
+Auf Teller 1 liegen 7 Nudeln.
+:
+Auf Teller 1 liegen 11 Nudeln.
+:
+Auf Teller 1 liegen 13 Nudeln.
+:
+Auf Teller 1 liegen 17 Nudeln.
+:
+Auf Teller 1 liegen 19 Nudeln.
+:
+Guten Appetit!
+\end{lstlisting}
+\color{black}
+
+
+\section{Fibonacci Zahlen}
+
+\subsubsection{\Pasta\ Program}
+\color{blue}
+\lstinputlisting{../examples/fibonacci.p}
+\color{black}
+
+\subsubsection{Beispielsitzung}
+\color{purple}
+
+\begin{lstlisting}
+Wieviele Nudeln liegen auf Teller 1?
+:-) 8
+:
+Auf Teller 4 liegt 1 Nudel.
+:
+Auf Teller 4 liegen 2 Nudeln.
+:
+Auf Teller 4 liegen 3 Nudeln.
+:
+Auf Teller 4 liegen 5 Nudeln.
+:
+Auf Teller 4 liegen 8 Nudeln.
+:
+Auf Teller 4 liegen 13 Nudeln.
+:
+Auf Teller 4 liegen 21 Nudeln.
+:
+Auf Teller 4 liegen 34 Nudeln.
+:
+Guten Appetit!
+\end{lstlisting}
+\color{black}
+
+
+\end{document}

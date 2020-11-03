@@ -1,0 +1,1464 @@
+Grammatik
+
+    0 $accept: programm $end
+
+    1 $@1: %empty
+
+    2 programm: $@1 anweisungs_block ARZ BIS_BALD ARZ
+
+    3 deklaration: HOLE_DIR NAT TELLER
+
+    4 bedingte_deklaration: hOLE_DIR NAT TELLER
+
+    5 anweisungs_block: anweisung
+    6                 | anweisungs_block ARZ anweisung
+
+    7 anweisung: lege_auf
+    8          | nimm_von
+    9          | sag_mir
+   10          | frag_mich
+   11          | wenn_dann
+   12          | solange
+   13          | deklaration
+
+   14 bedingter_anweisungs_block: bedingte_anweisung
+   15                           | bedingter_anweisungs_block KOMMA UND bedingte_anweisung
+
+   16 bedingte_anweisung: bedingt_lege_auf
+   17                   | bedingt_nimm_von
+   18                   | bedingt_sag_mir
+   19                   | bedingt_frag_mich
+   20                   | bedingte_deklaration
+   21                   | bedingt_wenn_dann
+   22                   | bedingt_solange
+
+   23 lege_auf: LEGE arithmetischer_ausdruck AUF TELLER NAT
+
+   24 bedingt_lege_auf: lEGE arithmetischer_ausdruck AUF TELLER NAT
+
+   25 nimm_von: NIMM arithmetischer_ausdruck VON TELLER NAT
+
+   26 bedingt_nimm_von: nIMM arithmetischer_ausdruck VON TELLER NAT
+
+   27 sag_mir: SAG_MIR KOMMA sag_mir_was
+
+   28 bedingt_sag_mir: sAG_MIR KOMMA sag_mir_was
+
+   29 sag_mir_was: WIEVIELE NUDELN AUF TELLER NAT LIEGEN
+   30            | OB bedingung IST
+
+   31 frag_mich: FRAG_MICH KOMMA frag_mich_was
+
+   32 bedingt_frag_mich: fRAG_MICH KOMMA frag_mich_was
+
+   33 frag_mich_was: WIEVIELE NUDELN AUF TELLER NAT LIEGEN SOLLEN
+
+   34 wenn_dann: MACHE FOLGENDES KOMMA bedingter_anweisungs_block KOMMA WENN bedingung IST
+
+   35 bedingt_wenn_dann: mACHE FOLGENDES KOMMA bedingter_anweisungs_block KOMMA WENN bedingung IST
+
+   36 solange: WIEDERHOLE FOLGENDES KOMMA bedingter_anweisungs_block KOMMA SOLANGE bedingung IST
+
+   37 bedingt_solange: wIEDERHOLE FOLGENDES KOMMA bedingter_anweisungs_block KOMMA SOLANGE bedingung IST
+
+   38 bedingung: TELLER NAT VOLLER_ALS TELLER NAT
+   39          | TELLER NAT NICHT VOLLER_ALS TELLER NAT
+   40          | TELLER NAT LEERER_ALS TELLER NAT
+   41          | TELLER NAT NICHT LEERER_ALS TELLER NAT
+   42          | TELLER NAT GENAUSO_VOLL_WIE TELLER NAT
+   43          | TELLER NAT NICHT GENAUSO_VOLL_WIE TELLER NAT
+   44          | TELLER NAT LEER
+   45          | TELLER NAT NICHT LEER
+   46          | bedingung UND bedingung
+   47          | bedingung ODER bedingung
+
+   48 arithmetischer_ausdruck: SOVIELE NUDELN KOMMA WIE AUF TELLER NAT LIEGEN KOMMA
+   49                        | NUDEL
+   50                        | NAT NUDELN
+
+
+Terminale und die Regeln, in denen sie verwendet werden
+
+$end (0) 0
+error (256)
+TELLER (258) 3 4 23 24 25 26 29 33 38 39 40 41 42 43 44 45 48
+HOLE_DIR (259) 3
+hOLE_DIR (260) 4
+NUDELN (261) 29 33 48 50
+NUDEL (262) 49
+NIMM (263) 25
+nIMM (264) 26
+VON (265) 25 26
+LEGE (266) 23
+lEGE (267) 24
+AUF (268) 23 24 29 33 48
+SAG_MIR (269) 27
+sAG_MIR (270) 28
+FRAG_MICH (271) 31
+fRAG_MICH (272) 32
+SOVIELE (273) 48
+WIEVIELE (274) 29 33
+WIE (275) 48
+LIEGEN (276) 29 33 48
+WENN (277) 34 35
+SOLANGE (278) 36 37
+SOLLEN (279) 33
+LEER (280) 44 45
+NICHT (281) 39 41 43 45
+MACHE (282) 34
+WIEDERHOLE (283) 36
+wIEDERHOLE (284) 37
+mACHE (285) 35
+FOLGENDES (286) 34 35 36 37
+VOLLER_ALS (287) 38 39
+LEERER_ALS (288) 40 41
+GENAUSO_VOLL_WIE (289) 42 43
+OB (290) 30
+UND (291) 15 46
+ODER (292) 47
+IST (293) 30 34 35 36 37
+NAT (294) 3 4 23 24 25 26 29 33 38 39 40 41 42 43 44 45 48 50
+ARZ (295) 2 6
+KOMMA (296) 15 27 28 31 32 34 35 36 37 48
+BIS_BALD (297) 2
+
+
+Nicht-Terminal und die Regeln, in denen sie verwendet werden
+
+$accept (43)
+    auf der linken Seite: 0
+programm (44)
+    auf der linken Seite: 2, auf der rechten Seite: 0
+$@1 (45)
+    auf der linken Seite: 1, auf der rechten Seite: 2
+deklaration (46)
+    auf der linken Seite: 3, auf der rechten Seite: 13
+bedingte_deklaration (47)
+    auf der linken Seite: 4, auf der rechten Seite: 20
+anweisungs_block (48)
+    auf der linken Seite: 5 6, auf der rechten Seite: 2 6
+anweisung (49)
+    auf der linken Seite: 7 8 9 10 11 12 13, auf der rechten Seite:
+    5 6
+bedingter_anweisungs_block (50)
+    auf der linken Seite: 14 15, auf der rechten Seite: 15 34 35 36
+    37
+bedingte_anweisung (51)
+    auf der linken Seite: 16 17 18 19 20 21 22, auf der rechten Seite:
+    14 15
+lege_auf (52)
+    auf der linken Seite: 23, auf der rechten Seite: 7
+bedingt_lege_auf (53)
+    auf der linken Seite: 24, auf der rechten Seite: 16
+nimm_von (54)
+    auf der linken Seite: 25, auf der rechten Seite: 8
+bedingt_nimm_von (55)
+    auf der linken Seite: 26, auf der rechten Seite: 17
+sag_mir (56)
+    auf der linken Seite: 27, auf der rechten Seite: 9
+bedingt_sag_mir (57)
+    auf der linken Seite: 28, auf der rechten Seite: 18
+sag_mir_was (58)
+    auf der linken Seite: 29 30, auf der rechten Seite: 27 28
+frag_mich (59)
+    auf der linken Seite: 31, auf der rechten Seite: 10
+bedingt_frag_mich (60)
+    auf der linken Seite: 32, auf der rechten Seite: 19
+frag_mich_was (61)
+    auf der linken Seite: 33, auf der rechten Seite: 31 32
+wenn_dann (62)
+    auf der linken Seite: 34, auf der rechten Seite: 11
+bedingt_wenn_dann (63)
+    auf der linken Seite: 35, auf der rechten Seite: 21
+solange (64)
+    auf der linken Seite: 36, auf der rechten Seite: 12
+bedingt_solange (65)
+    auf der linken Seite: 37, auf der rechten Seite: 22
+bedingung (66)
+    auf der linken Seite: 38 39 40 41 42 43 44 45 46 47, auf der rechten Seite:
+    30 34 35 36 37 46 47
+arithmetischer_ausdruck (67)
+    auf der linken Seite: 48 49 50, auf der rechten Seite: 23 24 25
+    26
+
+
+Zustand 0
+
+    0 $accept: . programm $end
+
+    $default  reduziere mit Regel 1 ($@1)
+
+    programm  gehe zu Zustand 1 über
+    $@1       gehe zu Zustand 2 über
+
+
+Zustand 1
+
+    0 $accept: programm . $end
+
+    $end  schiebe und gehe zu Zustand 3 über
+
+
+Zustand 2
+
+    2 programm: $@1 . anweisungs_block ARZ BIS_BALD ARZ
+
+    HOLE_DIR    schiebe und gehe zu Zustand 4 über
+    NIMM        schiebe und gehe zu Zustand 5 über
+    LEGE        schiebe und gehe zu Zustand 6 über
+    SAG_MIR     schiebe und gehe zu Zustand 7 über
+    FRAG_MICH   schiebe und gehe zu Zustand 8 über
+    MACHE       schiebe und gehe zu Zustand 9 über
+    WIEDERHOLE  schiebe und gehe zu Zustand 10 über
+
+    deklaration       gehe zu Zustand 11 über
+    anweisungs_block  gehe zu Zustand 12 über
+    anweisung         gehe zu Zustand 13 über
+    lege_auf          gehe zu Zustand 14 über
+    nimm_von          gehe zu Zustand 15 über
+    sag_mir           gehe zu Zustand 16 über
+    frag_mich         gehe zu Zustand 17 über
+    wenn_dann         gehe zu Zustand 18 über
+    solange           gehe zu Zustand 19 über
+
+
+Zustand 3
+
+    0 $accept: programm $end .
+
+    $default  annehmen
+
+
+Zustand 4
+
+    3 deklaration: HOLE_DIR . NAT TELLER
+
+    NAT  schiebe und gehe zu Zustand 20 über
+
+
+Zustand 5
+
+   25 nimm_von: NIMM . arithmetischer_ausdruck VON TELLER NAT
+
+    NUDEL    schiebe und gehe zu Zustand 21 über
+    SOVIELE  schiebe und gehe zu Zustand 22 über
+    NAT      schiebe und gehe zu Zustand 23 über
+
+    arithmetischer_ausdruck  gehe zu Zustand 24 über
+
+
+Zustand 6
+
+   23 lege_auf: LEGE . arithmetischer_ausdruck AUF TELLER NAT
+
+    NUDEL    schiebe und gehe zu Zustand 21 über
+    SOVIELE  schiebe und gehe zu Zustand 22 über
+    NAT      schiebe und gehe zu Zustand 23 über
+
+    arithmetischer_ausdruck  gehe zu Zustand 25 über
+
+
+Zustand 7
+
+   27 sag_mir: SAG_MIR . KOMMA sag_mir_was
+
+    KOMMA  schiebe und gehe zu Zustand 26 über
+
+
+Zustand 8
+
+   31 frag_mich: FRAG_MICH . KOMMA frag_mich_was
+
+    KOMMA  schiebe und gehe zu Zustand 27 über
+
+
+Zustand 9
+
+   34 wenn_dann: MACHE . FOLGENDES KOMMA bedingter_anweisungs_block KOMMA WENN bedingung IST
+
+    FOLGENDES  schiebe und gehe zu Zustand 28 über
+
+
+Zustand 10
+
+   36 solange: WIEDERHOLE . FOLGENDES KOMMA bedingter_anweisungs_block KOMMA SOLANGE bedingung IST
+
+    FOLGENDES  schiebe und gehe zu Zustand 29 über
+
+
+Zustand 11
+
+   13 anweisung: deklaration .
+
+    $default  reduziere mit Regel 13 (anweisung)
+
+
+Zustand 12
+
+    2 programm: $@1 anweisungs_block . ARZ BIS_BALD ARZ
+    6 anweisungs_block: anweisungs_block . ARZ anweisung
+
+    ARZ  schiebe und gehe zu Zustand 30 über
+
+
+Zustand 13
+
+    5 anweisungs_block: anweisung .
+
+    $default  reduziere mit Regel 5 (anweisungs_block)
+
+
+Zustand 14
+
+    7 anweisung: lege_auf .
+
+    $default  reduziere mit Regel 7 (anweisung)
+
+
+Zustand 15
+
+    8 anweisung: nimm_von .
+
+    $default  reduziere mit Regel 8 (anweisung)
+
+
+Zustand 16
+
+    9 anweisung: sag_mir .
+
+    $default  reduziere mit Regel 9 (anweisung)
+
+
+Zustand 17
+
+   10 anweisung: frag_mich .
+
+    $default  reduziere mit Regel 10 (anweisung)
+
+
+Zustand 18
+
+   11 anweisung: wenn_dann .
+
+    $default  reduziere mit Regel 11 (anweisung)
+
+
+Zustand 19
+
+   12 anweisung: solange .
+
+    $default  reduziere mit Regel 12 (anweisung)
+
+
+Zustand 20
+
+    3 deklaration: HOLE_DIR NAT . TELLER
+
+    TELLER  schiebe und gehe zu Zustand 31 über
+
+
+Zustand 21
+
+   49 arithmetischer_ausdruck: NUDEL .
+
+    $default  reduziere mit Regel 49 (arithmetischer_ausdruck)
+
+
+Zustand 22
+
+   48 arithmetischer_ausdruck: SOVIELE . NUDELN KOMMA WIE AUF TELLER NAT LIEGEN KOMMA
+
+    NUDELN  schiebe und gehe zu Zustand 32 über
+
+
+Zustand 23
+
+   50 arithmetischer_ausdruck: NAT . NUDELN
+
+    NUDELN  schiebe und gehe zu Zustand 33 über
+
+
+Zustand 24
+
+   25 nimm_von: NIMM arithmetischer_ausdruck . VON TELLER NAT
+
+    VON  schiebe und gehe zu Zustand 34 über
+
+
+Zustand 25
+
+   23 lege_auf: LEGE arithmetischer_ausdruck . AUF TELLER NAT
+
+    AUF  schiebe und gehe zu Zustand 35 über
+
+
+Zustand 26
+
+   27 sag_mir: SAG_MIR KOMMA . sag_mir_was
+
+    WIEVIELE  schiebe und gehe zu Zustand 36 über
+    OB        schiebe und gehe zu Zustand 37 über
+
+    sag_mir_was  gehe zu Zustand 38 über
+
+
+Zustand 27
+
+   31 frag_mich: FRAG_MICH KOMMA . frag_mich_was
+
+    WIEVIELE  schiebe und gehe zu Zustand 39 über
+
+    frag_mich_was  gehe zu Zustand 40 über
+
+
+Zustand 28
+
+   34 wenn_dann: MACHE FOLGENDES . KOMMA bedingter_anweisungs_block KOMMA WENN bedingung IST
+
+    KOMMA  schiebe und gehe zu Zustand 41 über
+
+
+Zustand 29
+
+   36 solange: WIEDERHOLE FOLGENDES . KOMMA bedingter_anweisungs_block KOMMA SOLANGE bedingung IST
+
+    KOMMA  schiebe und gehe zu Zustand 42 über
+
+
+Zustand 30
+
+    2 programm: $@1 anweisungs_block ARZ . BIS_BALD ARZ
+    6 anweisungs_block: anweisungs_block ARZ . anweisung
+
+    HOLE_DIR    schiebe und gehe zu Zustand 4 über
+    NIMM        schiebe und gehe zu Zustand 5 über
+    LEGE        schiebe und gehe zu Zustand 6 über
+    SAG_MIR     schiebe und gehe zu Zustand 7 über
+    FRAG_MICH   schiebe und gehe zu Zustand 8 über
+    MACHE       schiebe und gehe zu Zustand 9 über
+    WIEDERHOLE  schiebe und gehe zu Zustand 10 über
+    BIS_BALD    schiebe und gehe zu Zustand 43 über
+
+    deklaration  gehe zu Zustand 11 über
+    anweisung    gehe zu Zustand 44 über
+    lege_auf     gehe zu Zustand 14 über
+    nimm_von     gehe zu Zustand 15 über
+    sag_mir      gehe zu Zustand 16 über
+    frag_mich    gehe zu Zustand 17 über
+    wenn_dann    gehe zu Zustand 18 über
+    solange      gehe zu Zustand 19 über
+
+
+Zustand 31
+
+    3 deklaration: HOLE_DIR NAT TELLER .
+
+    $default  reduziere mit Regel 3 (deklaration)
+
+
+Zustand 32
+
+   48 arithmetischer_ausdruck: SOVIELE NUDELN . KOMMA WIE AUF TELLER NAT LIEGEN KOMMA
+
+    KOMMA  schiebe und gehe zu Zustand 45 über
+
+
+Zustand 33
+
+   50 arithmetischer_ausdruck: NAT NUDELN .
+
+    $default  reduziere mit Regel 50 (arithmetischer_ausdruck)
+
+
+Zustand 34
+
+   25 nimm_von: NIMM arithmetischer_ausdruck VON . TELLER NAT
+
+    TELLER  schiebe und gehe zu Zustand 46 über
+
+
+Zustand 35
+
+   23 lege_auf: LEGE arithmetischer_ausdruck AUF . TELLER NAT
+
+    TELLER  schiebe und gehe zu Zustand 47 über
+
+
+Zustand 36
+
+   29 sag_mir_was: WIEVIELE . NUDELN AUF TELLER NAT LIEGEN
+
+    NUDELN  schiebe und gehe zu Zustand 48 über
+
+
+Zustand 37
+
+   30 sag_mir_was: OB . bedingung IST
+
+    TELLER  schiebe und gehe zu Zustand 49 über
+
+    bedingung  gehe zu Zustand 50 über
+
+
+Zustand 38
+
+   27 sag_mir: SAG_MIR KOMMA sag_mir_was .
+
+    $default  reduziere mit Regel 27 (sag_mir)
+
+
+Zustand 39
+
+   33 frag_mich_was: WIEVIELE . NUDELN AUF TELLER NAT LIEGEN SOLLEN
+
+    NUDELN  schiebe und gehe zu Zustand 51 über
+
+
+Zustand 40
+
+   31 frag_mich: FRAG_MICH KOMMA frag_mich_was .
+
+    $default  reduziere mit Regel 31 (frag_mich)
+
+
+Zustand 41
+
+   34 wenn_dann: MACHE FOLGENDES KOMMA . bedingter_anweisungs_block KOMMA WENN bedingung IST
+
+    hOLE_DIR    schiebe und gehe zu Zustand 52 über
+    nIMM        schiebe und gehe zu Zustand 53 über
+    lEGE        schiebe und gehe zu Zustand 54 über
+    sAG_MIR     schiebe und gehe zu Zustand 55 über
+    fRAG_MICH   schiebe und gehe zu Zustand 56 über
+    wIEDERHOLE  schiebe und gehe zu Zustand 57 über
+    mACHE       schiebe und gehe zu Zustand 58 über
+
+    bedingte_deklaration        gehe zu Zustand 59 über
+    bedingter_anweisungs_block  gehe zu Zustand 60 über
+    bedingte_anweisung          gehe zu Zustand 61 über
+    bedingt_lege_auf            gehe zu Zustand 62 über
+    bedingt_nimm_von            gehe zu Zustand 63 über
+    bedingt_sag_mir             gehe zu Zustand 64 über
+    bedingt_frag_mich           gehe zu Zustand 65 über
+    bedingt_wenn_dann           gehe zu Zustand 66 über
+    bedingt_solange             gehe zu Zustand 67 über
+
+
+Zustand 42
+
+   36 solange: WIEDERHOLE FOLGENDES KOMMA . bedingter_anweisungs_block KOMMA SOLANGE bedingung IST
+
+    hOLE_DIR    schiebe und gehe zu Zustand 52 über
+    nIMM        schiebe und gehe zu Zustand 53 über
+    lEGE        schiebe und gehe zu Zustand 54 über
+    sAG_MIR     schiebe und gehe zu Zustand 55 über
+    fRAG_MICH   schiebe und gehe zu Zustand 56 über
+    wIEDERHOLE  schiebe und gehe zu Zustand 57 über
+    mACHE       schiebe und gehe zu Zustand 58 über
+
+    bedingte_deklaration        gehe zu Zustand 59 über
+    bedingter_anweisungs_block  gehe zu Zustand 68 über
+    bedingte_anweisung          gehe zu Zustand 61 über
+    bedingt_lege_auf            gehe zu Zustand 62 über
+    bedingt_nimm_von            gehe zu Zustand 63 über
+    bedingt_sag_mir             gehe zu Zustand 64 über
+    bedingt_frag_mich           gehe zu Zustand 65 über
+    bedingt_wenn_dann           gehe zu Zustand 66 über
+    bedingt_solange             gehe zu Zustand 67 über
+
+
+Zustand 43
+
+    2 programm: $@1 anweisungs_block ARZ BIS_BALD . ARZ
+
+    ARZ  schiebe und gehe zu Zustand 69 über
+
+
+Zustand 44
+
+    6 anweisungs_block: anweisungs_block ARZ anweisung .
+
+    $default  reduziere mit Regel 6 (anweisungs_block)
+
+
+Zustand 45
+
+   48 arithmetischer_ausdruck: SOVIELE NUDELN KOMMA . WIE AUF TELLER NAT LIEGEN KOMMA
+
+    WIE  schiebe und gehe zu Zustand 70 über
+
+
+Zustand 46
+
+   25 nimm_von: NIMM arithmetischer_ausdruck VON TELLER . NAT
+
+    NAT  schiebe und gehe zu Zustand 71 über
+
+
+Zustand 47
+
+   23 lege_auf: LEGE arithmetischer_ausdruck AUF TELLER . NAT
+
+    NAT  schiebe und gehe zu Zustand 72 über
+
+
+Zustand 48
+
+   29 sag_mir_was: WIEVIELE NUDELN . AUF TELLER NAT LIEGEN
+
+    AUF  schiebe und gehe zu Zustand 73 über
+
+
+Zustand 49
+
+   38 bedingung: TELLER . NAT VOLLER_ALS TELLER NAT
+   39          | TELLER . NAT NICHT VOLLER_ALS TELLER NAT
+   40          | TELLER . NAT LEERER_ALS TELLER NAT
+   41          | TELLER . NAT NICHT LEERER_ALS TELLER NAT
+   42          | TELLER . NAT GENAUSO_VOLL_WIE TELLER NAT
+   43          | TELLER . NAT NICHT GENAUSO_VOLL_WIE TELLER NAT
+   44          | TELLER . NAT LEER
+   45          | TELLER . NAT NICHT LEER
+
+    NAT  schiebe und gehe zu Zustand 74 über
+
+
+Zustand 50
+
+   30 sag_mir_was: OB bedingung . IST
+   46 bedingung: bedingung . UND bedingung
+   47          | bedingung . ODER bedingung
+
+    UND   schiebe und gehe zu Zustand 75 über
+    ODER  schiebe und gehe zu Zustand 76 über
+    IST   schiebe und gehe zu Zustand 77 über
+
+
+Zustand 51
+
+   33 frag_mich_was: WIEVIELE NUDELN . AUF TELLER NAT LIEGEN SOLLEN
+
+    AUF  schiebe und gehe zu Zustand 78 über
+
+
+Zustand 52
+
+    4 bedingte_deklaration: hOLE_DIR . NAT TELLER
+
+    NAT  schiebe und gehe zu Zustand 79 über
+
+
+Zustand 53
+
+   26 bedingt_nimm_von: nIMM . arithmetischer_ausdruck VON TELLER NAT
+
+    NUDEL    schiebe und gehe zu Zustand 21 über
+    SOVIELE  schiebe und gehe zu Zustand 22 über
+    NAT      schiebe und gehe zu Zustand 23 über
+
+    arithmetischer_ausdruck  gehe zu Zustand 80 über
+
+
+Zustand 54
+
+   24 bedingt_lege_auf: lEGE . arithmetischer_ausdruck AUF TELLER NAT
+
+    NUDEL    schiebe und gehe zu Zustand 21 über
+    SOVIELE  schiebe und gehe zu Zustand 22 über
+    NAT      schiebe und gehe zu Zustand 23 über
+
+    arithmetischer_ausdruck  gehe zu Zustand 81 über
+
+
+Zustand 55
+
+   28 bedingt_sag_mir: sAG_MIR . KOMMA sag_mir_was
+
+    KOMMA  schiebe und gehe zu Zustand 82 über
+
+
+Zustand 56
+
+   32 bedingt_frag_mich: fRAG_MICH . KOMMA frag_mich_was
+
+    KOMMA  schiebe und gehe zu Zustand 83 über
+
+
+Zustand 57
+
+   37 bedingt_solange: wIEDERHOLE . FOLGENDES KOMMA bedingter_anweisungs_block KOMMA SOLANGE bedingung IST
+
+    FOLGENDES  schiebe und gehe zu Zustand 84 über
+
+
+Zustand 58
+
+   35 bedingt_wenn_dann: mACHE . FOLGENDES KOMMA bedingter_anweisungs_block KOMMA WENN bedingung IST
+
+    FOLGENDES  schiebe und gehe zu Zustand 85 über
+
+
+Zustand 59
+
+   20 bedingte_anweisung: bedingte_deklaration .
+
+    $default  reduziere mit Regel 20 (bedingte_anweisung)
+
+
+Zustand 60
+
+   15 bedingter_anweisungs_block: bedingter_anweisungs_block . KOMMA UND bedingte_anweisung
+   34 wenn_dann: MACHE FOLGENDES KOMMA bedingter_anweisungs_block . KOMMA WENN bedingung IST
+
+    KOMMA  schiebe und gehe zu Zustand 86 über
+
+
+Zustand 61
+
+   14 bedingter_anweisungs_block: bedingte_anweisung .
+
+    $default  reduziere mit Regel 14 (bedingter_anweisungs_block)
+
+
+Zustand 62
+
+   16 bedingte_anweisung: bedingt_lege_auf .
+
+    $default  reduziere mit Regel 16 (bedingte_anweisung)
+
+
+Zustand 63
+
+   17 bedingte_anweisung: bedingt_nimm_von .
+
+    $default  reduziere mit Regel 17 (bedingte_anweisung)
+
+
+Zustand 64
+
+   18 bedingte_anweisung: bedingt_sag_mir .
+
+    $default  reduziere mit Regel 18 (bedingte_anweisung)
+
+
+Zustand 65
+
+   19 bedingte_anweisung: bedingt_frag_mich .
+
+    $default  reduziere mit Regel 19 (bedingte_anweisung)
+
+
+Zustand 66
+
+   21 bedingte_anweisung: bedingt_wenn_dann .
+
+    $default  reduziere mit Regel 21 (bedingte_anweisung)
+
+
+Zustand 67
+
+   22 bedingte_anweisung: bedingt_solange .
+
+    $default  reduziere mit Regel 22 (bedingte_anweisung)
+
+
+Zustand 68
+
+   15 bedingter_anweisungs_block: bedingter_anweisungs_block . KOMMA UND bedingte_anweisung
+   36 solange: WIEDERHOLE FOLGENDES KOMMA bedingter_anweisungs_block . KOMMA SOLANGE bedingung IST
+
+    KOMMA  schiebe und gehe zu Zustand 87 über
+
+
+Zustand 69
+
+    2 programm: $@1 anweisungs_block ARZ BIS_BALD ARZ .
+
+    $default  reduziere mit Regel 2 (programm)
+
+
+Zustand 70
+
+   48 arithmetischer_ausdruck: SOVIELE NUDELN KOMMA WIE . AUF TELLER NAT LIEGEN KOMMA
+
+    AUF  schiebe und gehe zu Zustand 88 über
+
+
+Zustand 71
+
+   25 nimm_von: NIMM arithmetischer_ausdruck VON TELLER NAT .
+
+    $default  reduziere mit Regel 25 (nimm_von)
+
+
+Zustand 72
+
+   23 lege_auf: LEGE arithmetischer_ausdruck AUF TELLER NAT .
+
+    $default  reduziere mit Regel 23 (lege_auf)
+
+
+Zustand 73
+
+   29 sag_mir_was: WIEVIELE NUDELN AUF . TELLER NAT LIEGEN
+
+    TELLER  schiebe und gehe zu Zustand 89 über
+
+
+Zustand 74
+
+   38 bedingung: TELLER NAT . VOLLER_ALS TELLER NAT
+   39          | TELLER NAT . NICHT VOLLER_ALS TELLER NAT
+   40          | TELLER NAT . LEERER_ALS TELLER NAT
+   41          | TELLER NAT . NICHT LEERER_ALS TELLER NAT
+   42          | TELLER NAT . GENAUSO_VOLL_WIE TELLER NAT
+   43          | TELLER NAT . NICHT GENAUSO_VOLL_WIE TELLER NAT
+   44          | TELLER NAT . LEER
+   45          | TELLER NAT . NICHT LEER
+
+    LEER              schiebe und gehe zu Zustand 90 über
+    NICHT             schiebe und gehe zu Zustand 91 über
+    VOLLER_ALS        schiebe und gehe zu Zustand 92 über
+    LEERER_ALS        schiebe und gehe zu Zustand 93 über
+    GENAUSO_VOLL_WIE  schiebe und gehe zu Zustand 94 über
+
+
+Zustand 75
+
+   46 bedingung: bedingung UND . bedingung
+
+    TELLER  schiebe und gehe zu Zustand 49 über
+
+    bedingung  gehe zu Zustand 95 über
+
+
+Zustand 76
+
+   47 bedingung: bedingung ODER . bedingung
+
+    TELLER  schiebe und gehe zu Zustand 49 über
+
+    bedingung  gehe zu Zustand 96 über
+
+
+Zustand 77
+
+   30 sag_mir_was: OB bedingung IST .
+
+    $default  reduziere mit Regel 30 (sag_mir_was)
+
+
+Zustand 78
+
+   33 frag_mich_was: WIEVIELE NUDELN AUF . TELLER NAT LIEGEN SOLLEN
+
+    TELLER  schiebe und gehe zu Zustand 97 über
+
+
+Zustand 79
+
+    4 bedingte_deklaration: hOLE_DIR NAT . TELLER
+
+    TELLER  schiebe und gehe zu Zustand 98 über
+
+
+Zustand 80
+
+   26 bedingt_nimm_von: nIMM arithmetischer_ausdruck . VON TELLER NAT
+
+    VON  schiebe und gehe zu Zustand 99 über
+
+
+Zustand 81
+
+   24 bedingt_lege_auf: lEGE arithmetischer_ausdruck . AUF TELLER NAT
+
+    AUF  schiebe und gehe zu Zustand 100 über
+
+
+Zustand 82
+
+   28 bedingt_sag_mir: sAG_MIR KOMMA . sag_mir_was
+
+    WIEVIELE  schiebe und gehe zu Zustand 36 über
+    OB        schiebe und gehe zu Zustand 37 über
+
+    sag_mir_was  gehe zu Zustand 101 über
+
+
+Zustand 83
+
+   32 bedingt_frag_mich: fRAG_MICH KOMMA . frag_mich_was
+
+    WIEVIELE  schiebe und gehe zu Zustand 39 über
+
+    frag_mich_was  gehe zu Zustand 102 über
+
+
+Zustand 84
+
+   37 bedingt_solange: wIEDERHOLE FOLGENDES . KOMMA bedingter_anweisungs_block KOMMA SOLANGE bedingung IST
+
+    KOMMA  schiebe und gehe zu Zustand 103 über
+
+
+Zustand 85
+
+   35 bedingt_wenn_dann: mACHE FOLGENDES . KOMMA bedingter_anweisungs_block KOMMA WENN bedingung IST
+
+    KOMMA  schiebe und gehe zu Zustand 104 über
+
+
+Zustand 86
+
+   15 bedingter_anweisungs_block: bedingter_anweisungs_block KOMMA . UND bedingte_anweisung
+   34 wenn_dann: MACHE FOLGENDES KOMMA bedingter_anweisungs_block KOMMA . WENN bedingung IST
+
+    WENN  schiebe und gehe zu Zustand 105 über
+    UND   schiebe und gehe zu Zustand 106 über
+
+
+Zustand 87
+
+   15 bedingter_anweisungs_block: bedingter_anweisungs_block KOMMA . UND bedingte_anweisung
+   36 solange: WIEDERHOLE FOLGENDES KOMMA bedingter_anweisungs_block KOMMA . SOLANGE bedingung IST
+
+    SOLANGE  schiebe und gehe zu Zustand 107 über
+    UND      schiebe und gehe zu Zustand 106 über
+
+
+Zustand 88
+
+   48 arithmetischer_ausdruck: SOVIELE NUDELN KOMMA WIE AUF . TELLER NAT LIEGEN KOMMA
+
+    TELLER  schiebe und gehe zu Zustand 108 über
+
+
+Zustand 89
+
+   29 sag_mir_was: WIEVIELE NUDELN AUF TELLER . NAT LIEGEN
+
+    NAT  schiebe und gehe zu Zustand 109 über
+
+
+Zustand 90
+
+   44 bedingung: TELLER NAT LEER .
+
+    $default  reduziere mit Regel 44 (bedingung)
+
+
+Zustand 91
+
+   39 bedingung: TELLER NAT NICHT . VOLLER_ALS TELLER NAT
+   41          | TELLER NAT NICHT . LEERER_ALS TELLER NAT
+   43          | TELLER NAT NICHT . GENAUSO_VOLL_WIE TELLER NAT
+   45          | TELLER NAT NICHT . LEER
+
+    LEER              schiebe und gehe zu Zustand 110 über
+    VOLLER_ALS        schiebe und gehe zu Zustand 111 über
+    LEERER_ALS        schiebe und gehe zu Zustand 112 über
+    GENAUSO_VOLL_WIE  schiebe und gehe zu Zustand 113 über
+
+
+Zustand 92
+
+   38 bedingung: TELLER NAT VOLLER_ALS . TELLER NAT
+
+    TELLER  schiebe und gehe zu Zustand 114 über
+
+
+Zustand 93
+
+   40 bedingung: TELLER NAT LEERER_ALS . TELLER NAT
+
+    TELLER  schiebe und gehe zu Zustand 115 über
+
+
+Zustand 94
+
+   42 bedingung: TELLER NAT GENAUSO_VOLL_WIE . TELLER NAT
+
+    TELLER  schiebe und gehe zu Zustand 116 über
+
+
+Zustand 95
+
+   46 bedingung: bedingung . UND bedingung
+   46          | bedingung UND bedingung .
+   47          | bedingung . ODER bedingung
+
+    $default  reduziere mit Regel 46 (bedingung)
+
+
+Zustand 96
+
+   46 bedingung: bedingung . UND bedingung
+   47          | bedingung . ODER bedingung
+   47          | bedingung ODER bedingung .
+
+    UND  schiebe und gehe zu Zustand 75 über
+
+    $default  reduziere mit Regel 47 (bedingung)
+
+
+Zustand 97
+
+   33 frag_mich_was: WIEVIELE NUDELN AUF TELLER . NAT LIEGEN SOLLEN
+
+    NAT  schiebe und gehe zu Zustand 117 über
+
+
+Zustand 98
+
+    4 bedingte_deklaration: hOLE_DIR NAT TELLER .
+
+    $default  reduziere mit Regel 4 (bedingte_deklaration)
+
+
+Zustand 99
+
+   26 bedingt_nimm_von: nIMM arithmetischer_ausdruck VON . TELLER NAT
+
+    TELLER  schiebe und gehe zu Zustand 118 über
+
+
+Zustand 100
+
+   24 bedingt_lege_auf: lEGE arithmetischer_ausdruck AUF . TELLER NAT
+
+    TELLER  schiebe und gehe zu Zustand 119 über
+
+
+Zustand 101
+
+   28 bedingt_sag_mir: sAG_MIR KOMMA sag_mir_was .
+
+    $default  reduziere mit Regel 28 (bedingt_sag_mir)
+
+
+Zustand 102
+
+   32 bedingt_frag_mich: fRAG_MICH KOMMA frag_mich_was .
+
+    $default  reduziere mit Regel 32 (bedingt_frag_mich)
+
+
+Zustand 103
+
+   37 bedingt_solange: wIEDERHOLE FOLGENDES KOMMA . bedingter_anweisungs_block KOMMA SOLANGE bedingung IST
+
+    hOLE_DIR    schiebe und gehe zu Zustand 52 über
+    nIMM        schiebe und gehe zu Zustand 53 über
+    lEGE        schiebe und gehe zu Zustand 54 über
+    sAG_MIR     schiebe und gehe zu Zustand 55 über
+    fRAG_MICH   schiebe und gehe zu Zustand 56 über
+    wIEDERHOLE  schiebe und gehe zu Zustand 57 über
+    mACHE       schiebe und gehe zu Zustand 58 über
+
+    bedingte_deklaration        gehe zu Zustand 59 über
+    bedingter_anweisungs_block  gehe zu Zustand 120 über
+    bedingte_anweisung          gehe zu Zustand 61 über
+    bedingt_lege_auf            gehe zu Zustand 62 über
+    bedingt_nimm_von            gehe zu Zustand 63 über
+    bedingt_sag_mir             gehe zu Zustand 64 über
+    bedingt_frag_mich           gehe zu Zustand 65 über
+    bedingt_wenn_dann           gehe zu Zustand 66 über
+    bedingt_solange             gehe zu Zustand 67 über
+
+
+Zustand 104
+
+   35 bedingt_wenn_dann: mACHE FOLGENDES KOMMA . bedingter_anweisungs_block KOMMA WENN bedingung IST
+
+    hOLE_DIR    schiebe und gehe zu Zustand 52 über
+    nIMM        schiebe und gehe zu Zustand 53 über
+    lEGE        schiebe und gehe zu Zustand 54 über
+    sAG_MIR     schiebe und gehe zu Zustand 55 über
+    fRAG_MICH   schiebe und gehe zu Zustand 56 über
+    wIEDERHOLE  schiebe und gehe zu Zustand 57 über
+    mACHE       schiebe und gehe zu Zustand 58 über
+
+    bedingte_deklaration        gehe zu Zustand 59 über
+    bedingter_anweisungs_block  gehe zu Zustand 121 über
+    bedingte_anweisung          gehe zu Zustand 61 über
+    bedingt_lege_auf            gehe zu Zustand 62 über
+    bedingt_nimm_von            gehe zu Zustand 63 über
+    bedingt_sag_mir             gehe zu Zustand 64 über
+    bedingt_frag_mich           gehe zu Zustand 65 über
+    bedingt_wenn_dann           gehe zu Zustand 66 über
+    bedingt_solange             gehe zu Zustand 67 über
+
+
+Zustand 105
+
+   34 wenn_dann: MACHE FOLGENDES KOMMA bedingter_anweisungs_block KOMMA WENN . bedingung IST
+
+    TELLER  schiebe und gehe zu Zustand 49 über
+
+    bedingung  gehe zu Zustand 122 über
+
+
+Zustand 106
+
+   15 bedingter_anweisungs_block: bedingter_anweisungs_block KOMMA UND . bedingte_anweisung
+
+    hOLE_DIR    schiebe und gehe zu Zustand 52 über
+    nIMM        schiebe und gehe zu Zustand 53 über
+    lEGE        schiebe und gehe zu Zustand 54 über
+    sAG_MIR     schiebe und gehe zu Zustand 55 über
+    fRAG_MICH   schiebe und gehe zu Zustand 56 über
+    wIEDERHOLE  schiebe und gehe zu Zustand 57 über
+    mACHE       schiebe und gehe zu Zustand 58 über
+
+    bedingte_deklaration  gehe zu Zustand 59 über
+    bedingte_anweisung    gehe zu Zustand 123 über
+    bedingt_lege_auf      gehe zu Zustand 62 über
+    bedingt_nimm_von      gehe zu Zustand 63 über
+    bedingt_sag_mir       gehe zu Zustand 64 über
+    bedingt_frag_mich     gehe zu Zustand 65 über
+    bedingt_wenn_dann     gehe zu Zustand 66 über
+    bedingt_solange       gehe zu Zustand 67 über
+
+
+Zustand 107
+
+   36 solange: WIEDERHOLE FOLGENDES KOMMA bedingter_anweisungs_block KOMMA SOLANGE . bedingung IST
+
+    TELLER  schiebe und gehe zu Zustand 49 über
+
+    bedingung  gehe zu Zustand 124 über
+
+
+Zustand 108
+
+   48 arithmetischer_ausdruck: SOVIELE NUDELN KOMMA WIE AUF TELLER . NAT LIEGEN KOMMA
+
+    NAT  schiebe und gehe zu Zustand 125 über
+
+
+Zustand 109
+
+   29 sag_mir_was: WIEVIELE NUDELN AUF TELLER NAT . LIEGEN
+
+    LIEGEN  schiebe und gehe zu Zustand 126 über
+
+
+Zustand 110
+
+   45 bedingung: TELLER NAT NICHT LEER .
+
+    $default  reduziere mit Regel 45 (bedingung)
+
+
+Zustand 111
+
+   39 bedingung: TELLER NAT NICHT VOLLER_ALS . TELLER NAT
+
+    TELLER  schiebe und gehe zu Zustand 127 über
+
+
+Zustand 112
+
+   41 bedingung: TELLER NAT NICHT LEERER_ALS . TELLER NAT
+
+    TELLER  schiebe und gehe zu Zustand 128 über
+
+
+Zustand 113
+
+   43 bedingung: TELLER NAT NICHT GENAUSO_VOLL_WIE . TELLER NAT
+
+    TELLER  schiebe und gehe zu Zustand 129 über
+
+
+Zustand 114
+
+   38 bedingung: TELLER NAT VOLLER_ALS TELLER . NAT
+
+    NAT  schiebe und gehe zu Zustand 130 über
+
+
+Zustand 115
+
+   40 bedingung: TELLER NAT LEERER_ALS TELLER . NAT
+
+    NAT  schiebe und gehe zu Zustand 131 über
+
+
+Zustand 116
+
+   42 bedingung: TELLER NAT GENAUSO_VOLL_WIE TELLER . NAT
+
+    NAT  schiebe und gehe zu Zustand 132 über
+
+
+Zustand 117
+
+   33 frag_mich_was: WIEVIELE NUDELN AUF TELLER NAT . LIEGEN SOLLEN
+
+    LIEGEN  schiebe und gehe zu Zustand 133 über
+
+
+Zustand 118
+
+   26 bedingt_nimm_von: nIMM arithmetischer_ausdruck VON TELLER . NAT
+
+    NAT  schiebe und gehe zu Zustand 134 über
+
+
+Zustand 119
+
+   24 bedingt_lege_auf: lEGE arithmetischer_ausdruck AUF TELLER . NAT
+
+    NAT  schiebe und gehe zu Zustand 135 über
+
+
+Zustand 120
+
+   15 bedingter_anweisungs_block: bedingter_anweisungs_block . KOMMA UND bedingte_anweisung
+   37 bedingt_solange: wIEDERHOLE FOLGENDES KOMMA bedingter_anweisungs_block . KOMMA SOLANGE bedingung IST
+
+    KOMMA  schiebe und gehe zu Zustand 136 über
+
+
+Zustand 121
+
+   15 bedingter_anweisungs_block: bedingter_anweisungs_block . KOMMA UND bedingte_anweisung
+   35 bedingt_wenn_dann: mACHE FOLGENDES KOMMA bedingter_anweisungs_block . KOMMA WENN bedingung IST
+
+    KOMMA  schiebe und gehe zu Zustand 137 über
+
+
+Zustand 122
+
+   34 wenn_dann: MACHE FOLGENDES KOMMA bedingter_anweisungs_block KOMMA WENN bedingung . IST
+   46 bedingung: bedingung . UND bedingung
+   47          | bedingung . ODER bedingung
+
+    UND   schiebe und gehe zu Zustand 75 über
+    ODER  schiebe und gehe zu Zustand 76 über
+    IST   schiebe und gehe zu Zustand 138 über
+
+
+Zustand 123
+
+   15 bedingter_anweisungs_block: bedingter_anweisungs_block KOMMA UND bedingte_anweisung .
+
+    $default  reduziere mit Regel 15 (bedingter_anweisungs_block)
+
+
+Zustand 124
+
+   36 solange: WIEDERHOLE FOLGENDES KOMMA bedingter_anweisungs_block KOMMA SOLANGE bedingung . IST
+   46 bedingung: bedingung . UND bedingung
+   47          | bedingung . ODER bedingung
+
+    UND   schiebe und gehe zu Zustand 75 über
+    ODER  schiebe und gehe zu Zustand 76 über
+    IST   schiebe und gehe zu Zustand 139 über
+
+
+Zustand 125
+
+   48 arithmetischer_ausdruck: SOVIELE NUDELN KOMMA WIE AUF TELLER NAT . LIEGEN KOMMA
+
+    LIEGEN  schiebe und gehe zu Zustand 140 über
+
+
+Zustand 126
+
+   29 sag_mir_was: WIEVIELE NUDELN AUF TELLER NAT LIEGEN .
+
+    $default  reduziere mit Regel 29 (sag_mir_was)
+
+
+Zustand 127
+
+   39 bedingung: TELLER NAT NICHT VOLLER_ALS TELLER . NAT
+
+    NAT  schiebe und gehe zu Zustand 141 über
+
+
+Zustand 128
+
+   41 bedingung: TELLER NAT NICHT LEERER_ALS TELLER . NAT
+
+    NAT  schiebe und gehe zu Zustand 142 über
+
+
+Zustand 129
+
+   43 bedingung: TELLER NAT NICHT GENAUSO_VOLL_WIE TELLER . NAT
+
+    NAT  schiebe und gehe zu Zustand 143 über
+
+
+Zustand 130
+
+   38 bedingung: TELLER NAT VOLLER_ALS TELLER NAT .
+
+    $default  reduziere mit Regel 38 (bedingung)
+
+
+Zustand 131
+
+   40 bedingung: TELLER NAT LEERER_ALS TELLER NAT .
+
+    $default  reduziere mit Regel 40 (bedingung)
+
+
+Zustand 132
+
+   42 bedingung: TELLER NAT GENAUSO_VOLL_WIE TELLER NAT .
+
+    $default  reduziere mit Regel 42 (bedingung)
+
+
+Zustand 133
+
+   33 frag_mich_was: WIEVIELE NUDELN AUF TELLER NAT LIEGEN . SOLLEN
+
+    SOLLEN  schiebe und gehe zu Zustand 144 über
+
+
+Zustand 134
+
+   26 bedingt_nimm_von: nIMM arithmetischer_ausdruck VON TELLER NAT .
+
+    $default  reduziere mit Regel 26 (bedingt_nimm_von)
+
+
+Zustand 135
+
+   24 bedingt_lege_auf: lEGE arithmetischer_ausdruck AUF TELLER NAT .
+
+    $default  reduziere mit Regel 24 (bedingt_lege_auf)
+
+
+Zustand 136
+
+   15 bedingter_anweisungs_block: bedingter_anweisungs_block KOMMA . UND bedingte_anweisung
+   37 bedingt_solange: wIEDERHOLE FOLGENDES KOMMA bedingter_anweisungs_block KOMMA . SOLANGE bedingung IST
+
+    SOLANGE  schiebe und gehe zu Zustand 145 über
+    UND      schiebe und gehe zu Zustand 106 über
+
+
+Zustand 137
+
+   15 bedingter_anweisungs_block: bedingter_anweisungs_block KOMMA . UND bedingte_anweisung
+   35 bedingt_wenn_dann: mACHE FOLGENDES KOMMA bedingter_anweisungs_block KOMMA . WENN bedingung IST
+
+    WENN  schiebe und gehe zu Zustand 146 über
+    UND   schiebe und gehe zu Zustand 106 über
+
+
+Zustand 138
+
+   34 wenn_dann: MACHE FOLGENDES KOMMA bedingter_anweisungs_block KOMMA WENN bedingung IST .
+
+    $default  reduziere mit Regel 34 (wenn_dann)
+
+
+Zustand 139
+
+   36 solange: WIEDERHOLE FOLGENDES KOMMA bedingter_anweisungs_block KOMMA SOLANGE bedingung IST .
+
+    $default  reduziere mit Regel 36 (solange)
+
+
+Zustand 140
+
+   48 arithmetischer_ausdruck: SOVIELE NUDELN KOMMA WIE AUF TELLER NAT LIEGEN . KOMMA
+
+    KOMMA  schiebe und gehe zu Zustand 147 über
+
+
+Zustand 141
+
+   39 bedingung: TELLER NAT NICHT VOLLER_ALS TELLER NAT .
+
+    $default  reduziere mit Regel 39 (bedingung)
+
+
+Zustand 142
+
+   41 bedingung: TELLER NAT NICHT LEERER_ALS TELLER NAT .
+
+    $default  reduziere mit Regel 41 (bedingung)
+
+
+Zustand 143
+
+   43 bedingung: TELLER NAT NICHT GENAUSO_VOLL_WIE TELLER NAT .
+
+    $default  reduziere mit Regel 43 (bedingung)
+
+
+Zustand 144
+
+   33 frag_mich_was: WIEVIELE NUDELN AUF TELLER NAT LIEGEN SOLLEN .
+
+    $default  reduziere mit Regel 33 (frag_mich_was)
+
+
+Zustand 145
+
+   37 bedingt_solange: wIEDERHOLE FOLGENDES KOMMA bedingter_anweisungs_block KOMMA SOLANGE . bedingung IST
+
+    TELLER  schiebe und gehe zu Zustand 49 über
+
+    bedingung  gehe zu Zustand 148 über
+
+
+Zustand 146
+
+   35 bedingt_wenn_dann: mACHE FOLGENDES KOMMA bedingter_anweisungs_block KOMMA WENN . bedingung IST
+
+    TELLER  schiebe und gehe zu Zustand 49 über
+
+    bedingung  gehe zu Zustand 149 über
+
+
+Zustand 147
+
+   48 arithmetischer_ausdruck: SOVIELE NUDELN KOMMA WIE AUF TELLER NAT LIEGEN KOMMA .
+
+    $default  reduziere mit Regel 48 (arithmetischer_ausdruck)
+
+
+Zustand 148
+
+   37 bedingt_solange: wIEDERHOLE FOLGENDES KOMMA bedingter_anweisungs_block KOMMA SOLANGE bedingung . IST
+   46 bedingung: bedingung . UND bedingung
+   47          | bedingung . ODER bedingung
+
+    UND   schiebe und gehe zu Zustand 75 über
+    ODER  schiebe und gehe zu Zustand 76 über
+    IST   schiebe und gehe zu Zustand 150 über
+
+
+Zustand 149
+
+   35 bedingt_wenn_dann: mACHE FOLGENDES KOMMA bedingter_anweisungs_block KOMMA WENN bedingung . IST
+   46 bedingung: bedingung . UND bedingung
+   47          | bedingung . ODER bedingung
+
+    UND   schiebe und gehe zu Zustand 75 über
+    ODER  schiebe und gehe zu Zustand 76 über
+    IST   schiebe und gehe zu Zustand 151 über
+
+
+Zustand 150
+
+   37 bedingt_solange: wIEDERHOLE FOLGENDES KOMMA bedingter_anweisungs_block KOMMA SOLANGE bedingung IST .
+
+    $default  reduziere mit Regel 37 (bedingt_solange)
+
+
+Zustand 151
+
+   35 bedingt_wenn_dann: mACHE FOLGENDES KOMMA bedingter_anweisungs_block KOMMA WENN bedingung IST .
+
+    $default  reduziere mit Regel 35 (bedingt_wenn_dann)

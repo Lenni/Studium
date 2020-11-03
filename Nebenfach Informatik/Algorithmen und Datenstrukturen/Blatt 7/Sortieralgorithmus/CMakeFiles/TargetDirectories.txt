@@ -1,0 +1,3 @@
+/home/lennart/Schreibtisch/Nebenfach Informatik/Algorithmen und Datenstrukturen/Blatt 7/Sortieralgorithmus/CMakeFiles/rebuild_cache.dir
+/home/lennart/Schreibtisch/Nebenfach Informatik/Algorithmen und Datenstrukturen/Blatt 7/Sortieralgorithmus/CMakeFiles/Sortieralgorithmus.dir
+/home/lennart/Schreibtisch/Nebenfach Informatik/Algorithmen und Datenstrukturen/Blatt 7/Sortieralgorithmus/CMakeFiles/edit_cache.dir
