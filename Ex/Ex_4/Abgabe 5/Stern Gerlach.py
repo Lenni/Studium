@@ -41,7 +41,7 @@ def refresh():
     
     sig = np.std(data)
     
-    ax.hist(data, bins=1000, range=(-2*sig,2*sig), label=r"$\frac{{dB}}{{dz}} = {} \quad  T = {} \quad  l = {}$".format(dB_dz, T, l))
+    ax.hist(data, bins=1000, range=(-2*sig,2*sig), label=r"$\frac{{dB}}{{dz}} = {} \quad  T = {} \quad l = {}$".format(dB_dz, T, l))
     
     ax.set_title("Zoom in histogramm, between {:.2f} and {:.2f} m".format(-2*sig, 2*sig))
     ax.set_xlabel("z-position on screen in m")
@@ -75,7 +75,7 @@ def stern_gerlach(dB_dz = 82, T = 190, l = 0.1, d = 0.32, iterations = 10000, bl
         z = 0.5*F/m_k*t**2
         
         angle = np.arctan((F/m_k*t)/(v))
-        angle += np.random.uniform(0, 0.1)*blende
+        angle += np.random.uniform(-3*blende, 3*blende)
         
         z_0 = np.random.uniform(-blende, blende)
         
@@ -136,7 +136,7 @@ slider_b = tk.Scale(frame, from_=0, to_=0.1, resolution=0.01, label = "Blendenö
 slider_b.set(0.0)
 slider_b.pack(side = "left")
 
-slider_itas = tk.Scale(frame, from_=0, to_=10000, label="Simulierte Teilchen")
+slider_itas = tk.Scale(frame, from_=0, to_=100000, label="Simulierte Teilchen")
 slider_itas.set(10000)
 slider_itas.pack(side = "left")
 

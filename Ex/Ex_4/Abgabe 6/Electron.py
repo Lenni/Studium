@@ -141,8 +141,6 @@ print("")
 base = generate_basestate(highest[0], highest[1], highest[2])
 
 _, sum_e, _ = parse_input(base + inp)
-
-print(sum_e)
     
 
 if valid:
@@ -155,11 +153,10 @@ if valid:
     print(element_name)
     print("")
     
+    print(base + inp)
+    print(ground)
     
     if((base + inp) == ground[:-1]):
         print("Element is in lowest Energy State")
     else:
         print("Element is in excited State")
-    
-    
-    

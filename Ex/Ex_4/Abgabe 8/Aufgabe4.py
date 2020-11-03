@@ -79,11 +79,11 @@ plt.plot(sub_f, sub_y, linewidth = 0, marker = "o", label= "Data")
 
 popt, pcov = scipy.optimize.curve_fit(gaussian, sub_f, sub_y, p0=[0, 0, 3, 3, 7])
 
-plt.plot(sub_f, gaussian(sub_f, *popt),label= "Gaussian Model")
+plt.plot(sub_f, gaussian(sub_f, *popt),label= "Gaussian Model", linestyle=":")
 
 popt, pcov = scipy.optimize.curve_fit(lorentz, sub_f, sub_y, p0=[0, 0, 3, 10, 0.1])
 
-plt.plot(sub_f, lorentz(sub_f, *popt),label= "Lorentz Model")
+plt.plot(sub_f, lorentz(sub_f, *popt),label= "Lorentz Model", linestyle="--")
 
 plt.xlabel("Frequency in GHz")
 plt.ylabel("Intensity")

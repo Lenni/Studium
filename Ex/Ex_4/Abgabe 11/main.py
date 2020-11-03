@@ -78,6 +78,7 @@ plt.plot(x[1::], np.e**func(x[1::], *popt))
 
 plt.yscale("log")
 
+plt.savefig("plot.eps", bbox_inches = "tight")
 plt.show()
 
 print("x1 = {:.3}   x2 = {:.3}".format(popt[0], popt[1]))
