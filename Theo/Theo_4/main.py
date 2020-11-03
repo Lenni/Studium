@@ -1,5 +1,5 @@
-import notebooks.Blatt1.a4
+import Theo.Theo_4.notebooks.Blatt1.a4
 
 if __name__ == "__main__":
 
-    notebooks.Blatt1.a4.run()
+    Theo.Theo_4.notebooks.Blatt1.a4.run()
