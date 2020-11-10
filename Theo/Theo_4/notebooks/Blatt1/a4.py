@@ -66,6 +66,7 @@ def b():
     axs[1].plot(n_values, y)
 
     plt.show()
+    fig.savefig("plot.pdf", bbox_inches = "tight")
 
 def run():
     a()
