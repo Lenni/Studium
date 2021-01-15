@@ -112,7 +112,7 @@ if __name__ == "__main__":
     results = []
 
     for file in filenames:
-        results.append(run_serpent(file, options={"omp": 10}))
+        results.append(run_serpent(file, options={"omp": 100}))
 
     print(results)
     k_effs = []
@@ -125,7 +125,7 @@ if __name__ == "__main__":
     plt.plot(thicknesses, k_effs, marker="o", color="r", label="Simulated k_eff")
     plt.legend()
 
-    plt.xlabel("Reflector thickness")
+    plt.xlabel("Reflector thickness in cm")
     plt.ylabel("Neutron multiplication factor")
 
-    plt.savefig("criticality.png", bbox_inches="tight", dpi=900)
+    plt.savefig("criticality_reflector.png", bbox_inches="tight", dpi=900)

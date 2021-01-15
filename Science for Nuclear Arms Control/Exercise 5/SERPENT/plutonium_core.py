@@ -4,22 +4,15 @@ import matplotlib.pyplot as plt
 import sys
 
 SERPENT_Template = """
-mat fuel -19.8  94239.09c -100 rgb 50 200 10
+mat fuel -19.8  94239.09c 60 94240.09c 30 94241.09c 8 94242.09c 2 rgb 50 200 10
 
-surf Sphere  sph 0 0 {offset_1} {diameter}
-surf Sphere2 sph 0 0 {offset_2} {diameter}
-
-surf box cube 0 0 0 {box_size}
+surf Sphere  sph 0 0 0 {diameter}
 
 cell Core 0 fuel -Sphere
-cell Core2 0 fuel -Sphere2
-cell Box 0 void Sphere Sphere2 -box
-
-cell Out 0 outside box
+cell Out 0 outside Sphere
 
 set bc 1
 set pop 10000 100 50
-
 
 set tpa 0 0.1 1 100 200
 
@@ -90,18 +83,16 @@ if __name__ == "__main__":
     else:
         bins = 4
 
-    distances = np.linspace(0, 3, bins)
+    sphere_radii = np.linspace(1, 10, bins)
+    masses = 4 / 3 * np.pi * (sphere_radii) ** 3 * 19.8
     filenames = []
 
-    for distance in distances:
-        sphere_diameter = 4.67
+    for sphere_diameter in sphere_radii:
 
         parameters = {"diameter": str(sphere_diameter),
-                      "offset_1": distance + sphere_diameter,
-                      "offset_2": -distance - sphere_diameter ,
-                      "box_size": 4 * sphere_diameter + 2 * distance}
+                      "box_size": 2 * sphere_diameter}
 
-        filename = "spheres_{distance:.3f}".format(distance=distance)
+        filename = "mixture_{sphere_diameter:.3f}".format(sphere_diameter=sphere_diameter)
         filenames.append(filename)
 
         generate_file(filename, **parameters)
@@ -115,14 +106,19 @@ if __name__ == "__main__":
     k_effs = []
 
     for result in results:
-        k_effs.append(get_multiplication_factor(result))
+        try:
+            k_effs.append(get_multiplication_factor(result))
+        except:
+            print("Oh Oh")
 
     figure = plt.figure(figsize=(16, 9))
 
-    plt.plot(distances, k_effs, marker="o", color="r", label="Simulated k_eff")
+    # plt.plot(sphere_diameters, k_effs, marker="o", color="r", label="Simulated k_eff")
+
+    plt.plot(masses, k_effs, marker="o", color="g", label="Simulated k_eff")
     plt.legend()
 
-    plt.xlabel("Distance between spheres in cm")
+    plt.xlabel("Sphere Mass in g")
     plt.ylabel("Neutron multiplication factor")
 
-    plt.savefig("criticality.png", bbox_inches="tight", dpi=900)
+    plt.savefig("criticality_mixture.png", bbox_inches="tight", dpi=900)
