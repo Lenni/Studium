@@ -8,4 +8,3 @@ echo "SERPENT 2 Data Paths Configured!"
 path+=('/work/lect0049/SERPENT2')
 
 export PATH
-

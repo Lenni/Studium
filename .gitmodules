@@ -1,0 +1,3 @@
+[submodule "dlipr"]
+	path = dlipr
+	url = git@github.com:Lenni/dlipr.git
