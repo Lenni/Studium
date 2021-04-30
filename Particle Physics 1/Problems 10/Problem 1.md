@@ -7,11 +7,11 @@ so that E approx. p. This assumption is justified, because
 to create a jet, a particle must have a significant more energy than 
 the rest mass of a hadron.
 
-##b
+## b
 
 See code.
 
-##c
+## c
 
 We found that for R = 0.5 there are 2 jets with:
 
