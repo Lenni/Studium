@@ -1,3 +1,7 @@
 [submodule "deep_learning"]
 	path = deep_learning
 	url = git@github.com:Lenni/Deep-Learning-in-Physics.git
+
+[submodule "Lennart_Wilde"]
+    path = Nebenfach Informatik/Einführung in die Programmierung/Git/Lennart_Wilde
+    url = git@git.rwth-aachen.de:programmierung_ws1718_3/Lennart_Wilde.git

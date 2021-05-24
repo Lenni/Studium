@@ -1,0 +1,182 @@
+
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+\usepackage{wrapfig}
+\usepackage{caption}
+\usepackage{tcolorbox}
+\usepackage{tabulary}
+\usepackage{cite}
+
+
+\expandafter\def\expandafter\quote\expandafter{\quote\small}
+
+\usefonttheme[onlymath]{serif}
+
+\usetheme{Copenhagen}
+\usecolortheme{beaver}
+
+\title{M.A.D}
+\author{Lennart Wilde}
+\institute{Science for Nuclear Arms control}
+\date{05. November 2020}
+
+\renewcommand{\figurename}{Fig.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SEITENZAHLEN AUF  FOLIE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\defbeamertemplate{footline}{centered page number}
+{%
+  \hspace*{\fill}%
+  \usebeamercolor[fg]{page number in head/foot}%
+  \usebeamerfont{page number in head/foot}%
+  \insertpagenumber\,/\,\insertpresentationendpage%
+  \hspace*{\fill}\vskip2pt%
+}
+
+\setbeamertemplate{footline}[centered page number]
+
+\beamertemplatenavigationsymbolsempty
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% ANDERER ITEMIZE STIL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setbeamertemplate{itemize items}[default]
+\setbeamertemplate{enumerate items}[default]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+    \frame{\titlepage}
+    
+
+    \begin{frame}[t]{M.A.D}
+      \only<1>{
+        \framesubtitle{Mutually Assured Destruction}
+        \begin{center}
+        
+            "When the only winning move is not to play" \\
+            
+            \begin{figure}
+                
+                \includegraphics[width = 0.7 \textwidth]{"Pictures/Missile_Crisis.png"}
+                
+                \caption{\footnotesize Source: \cite{illingworth_1962}}
+                
+            \end{figure}
+        
+        \end{center}
+      }
+      
+      \only<2>{
+        \framesubtitle{Mutually Assured Destruction}
+        \begin{center}
+            \begin{itemize}
+                \setlength\itemsep{2em}
+                \item guaranteed retaliation in the event of a first strike
+                \item ~1500 Warheads $\rightarrow$ only a tiny fraction is enough to ensure annihilation
+                \item Delicate balance of power
+            \end{itemize}
+        \end{center}
+        \cite{street_2019}
+      }
+      
+    \only<3>{
+        \framesubtitle{Problems}
+        \begin{center}
+            \begin{itemize}
+                \setlength\itemsep{2em}
+                \item Balance
+                \item Detection
+                \item Rationality: M.A.D only works if you assume that leaders act rationally
+            \end{itemize}
+        \end{center}
+        \cite{street_2019}
+      }
+    \only<4>{
+        \framesubtitle{Problems}
+        \begin{center}
+            \begin{itemize}
+                \setlength\itemsep{2em}
+                \item Non-State-Actors: Terrorist Groups could gain access to nuclear material
+                \item Attribution: It can sometime be very difficult to determine the origin of an attack
+            \end{itemize}
+        \end{center}
+      }
+      
+    \end{frame}
+    
+    \begin{frame}{Example}
+        \only<1>{
+            \framesubtitle{Problems: Attribution}
+            \begin{center}
+                \begin{figure}
+                    
+                    \includegraphics[width = 0.7 \textwidth]{"Pictures/Borders_1.png"}
+                    
+                    \caption{\footnotesize Source: \cite{maps_2020}}
+                    
+                \end{figure}
+            \end{center}
+                }
+        \only<2>{
+            \framesubtitle{Problems: Attribution}
+            \begin{center}
+                \begin{figure}
+                    
+                    \includegraphics[width = 0.7 \textwidth]{"Pictures/Borders_2.png"}
+                    
+                    \caption{\footnotesize Source: \cite{maps_2020}}
+                    
+                \end{figure}
+            \end{center}
+            }
+        \only<3>{
+            \framesubtitle{Problems: Attribution}
+            \begin{center}
+                \begin{figure}
+                    
+                    \includegraphics[width = 0.7 \textwidth]{"Pictures/Borders_3.png"}
+                    
+                    \caption{\footnotesize Source: \cite{maps_2020}}
+                    
+                \end{figure}
+            \end{center}
+                }
+        \only<4>{
+            \framesubtitle{Problems: Attribution}
+            \begin{center}
+                \begin{figure}
+                    
+                    \includegraphics[width = 0.7 \textwidth]{"Pictures/Borders_4.png"}
+                    
+                    \caption{\footnotesize Source: \cite{maps_2020}}
+                    
+                \end{figure}
+            \end{center}
+            }
+    \end{frame}
+    
+    \begin{frame}{Solutions}
+        \begin{itemize}
+            \setlength\itemsep{2em}
+            \item Nuclear Verification $\rightarrow"$ Provide confidence in the enemys abilities
+            \item Disarmament
+        \end{itemize}
+        \begin{center}
+            Not a "magic bullet" but a foundation to be built upon
+        \end{center}
+    \end{frame}
+
+    \begin{frame}{End}
+        Thanks for listening :) 
+    \end{frame}
+    
+    \begin{frame}
+        \bibliographystyle{plain}
+        \bibliography{quote.bib}{}
+    \end{frame}
+
+\end{document}
