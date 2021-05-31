@@ -10,6 +10,10 @@ tqdm = "*"
 tensorflow = "*"
 matplotlib = "*"
 comet_ml = "*"
+imageio = "*"
+pydot = "*"
+graphviz = "*"
+keras-visualizer = "*"
 
 [dev-packages]
 
